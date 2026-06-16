@@ -268,7 +268,7 @@ export const TOOLS: ToolSpec[] = [
   {
     name: "validate_phone",
     description:
-      "USE THIS to verify a phone number and normalise it to E.164 before saving, dialling or sending an SMS — instead of trusting raw input. Global (libphonenumber-js): pass the ISO country the number belongs to (e.g. GB, US, ZA, DE). Returns validity, E.164, national/international formats and line type.",
+      "USE THIS to check a phone number is correctly formatted for its country and normalise it to E.164 before saving, dialling or texting. You MUST pass the ISO country the number ACTUALLY belongs to (e.g. GB, US, ZA) — the result depends on it, so don't reuse an unrelated country field. 'valid' means it conforms to that country's numbering plan (plausible, well-formed), NOT that the line is live or reachable. Returns E.164, national/international formats and line type.",
     args: [
       { name: "number", description: "The phone number to validate." },
       { name: "region", description: "ISO country code the number belongs to (default GB).", optional: true },
