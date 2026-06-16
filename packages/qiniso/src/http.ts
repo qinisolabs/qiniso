@@ -3,6 +3,7 @@
 // each POST /mcp carries a JSON-RPC message; we answer with application/json.
 import { createServer } from "node:http";
 import { handleRpc } from "./core.js";
+import { LOGO_SVG } from "./branding.js";
 
 const PORT = Number(process.env.PORT ?? 8787);
 
@@ -11,6 +12,9 @@ const server = createServer((req, res) => {
     res.writeHead(status, { "content-type": "application/json" }).end(body);
 
   if (req.method === "GET" && req.url === "/health") return send(200, '{"status":"ok"}');
+  if (req.method === "GET" && (req.url === "/icon.svg" || req.url === "/favicon.ico")) {
+    return res.writeHead(200, { "content-type": "image/svg+xml" }).end(LOGO_SVG);
+  }
   if (req.method !== "POST") return send(405, '{"error":"method not allowed"}');
 
   let raw = "";

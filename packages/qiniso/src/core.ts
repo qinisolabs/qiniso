@@ -24,6 +24,7 @@ import {
   validateAba,
 } from "@qiniso/finance";
 import { validateEthAddress, validateBtcAddress } from "@qiniso/crypto";
+import { ICONS, PUBLIC_BASE } from "./branding.js";
 
 export interface ToolSpec {
   name: string;
@@ -229,7 +230,7 @@ export function handleRpc(msg: JsonRpcMessage): object | null {
         result = {
           protocolVersion: params?.protocolVersion ?? DEFAULT_PROTOCOL,
           capabilities: { tools: {} },
-          serverInfo: SERVER_INFO,
+          serverInfo: { ...SERVER_INFO, websiteUrl: PUBLIC_BASE, icons: ICONS },
         };
         break;
       case "tools/list":
