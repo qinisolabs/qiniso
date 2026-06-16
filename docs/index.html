@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Qiniso — deterministic fact verification for AI agents</title>
+<meta name="description" content="Qiniso is the deterministic fact-verification layer for AI agents: it checks the structured facts an agent emits — identifiers, locale, finance, crypto, IDs — against authoritative ground truth. Checksums and curated data, not guesses." />
+<link rel="icon" href="logo.svg" type="image/svg+xml" />
+<style>
+  :root {
+    --emerald: #10b981; --emerald-dark: #047857; --ink: #0b1220; --muted: #5b6472;
+    --bg: #ffffff; --card: #f6f8f7; --line: #e3e8e5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--ink); background: var(--bg); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 72px 0 40px; text-align: center; }
+  .logo { width: 84px; height: 84px; }
+  h1 { font-size: 2.6rem; margin: 18px 0 6px; letter-spacing: -0.02em; }
+  .tag { font-size: 1.18rem; color: var(--emerald-dark); font-weight: 600; margin: 0 0 14px; }
+  .lede { font-size: 1.12rem; color: var(--muted); max-width: 640px; margin: 0 auto 26px; }
+  .cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+  .btn-primary { background: linear-gradient(135deg, var(--emerald), var(--emerald-dark)); color: #fff; }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink); }
+  section { padding: 36px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 1.5rem; letter-spacing: -0.01em; }
+  .stat { display: flex; gap: 28px; flex-wrap: wrap; margin: 18px 0; }
+  .stat div { flex: 1 1 200px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+  .stat b { display: block; font-size: 2rem; color: var(--emerald-dark); line-height: 1.1; }
+  .stat span { color: var(--muted); font-size: 0.95rem; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre { background: var(--ink); color: #e6edf3; padding: 16px 18px; border-radius: 10px; overflow-x: auto; font-size: 0.9rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 16px; }
+  .mod { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .mod h3 { margin: 0 0 4px; font-size: 1.02rem; }
+  .mod p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+  footer { color: var(--muted); font-size: 0.9rem; text-align: center; padding: 40px 0 64px; border-top: 1px solid var(--line); }
+  a { color: var(--emerald-dark); }
+  .note { color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-label="Qiniso">
+      <defs><linearGradient id="e" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#047857"/></linearGradient></defs>
+      <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#e)"/>
+      <circle cx="236" cy="252" r="120" fill="none" stroke="#fff" stroke-width="42"/>
+      <path d="M238 300 L300 366 L420 190" fill="none" stroke="#fff" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>Qiniso</h1>
+    <p class="tag">The deterministic fact-verification layer for AI agents.</p>
+    <p class="lede">Agents confidently emit IBANs, domains, VAT numbers and crypto addresses that are subtly — and silently — wrong. Qiniso checks them against checksums and curated authoritative data, so a wrong answer is caught, not trusted. <em>"Qiniso" means "truth" in Zulu.</em></p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#add">Add to Claude</a>
+      <a class="btn btn-ghost" href="https://github.com/qinisolabs/qiniso">GitHub</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Why it exists</h2>
+    <p>Security and structure guardrails check whether an answer is <em>safe</em> or <em>well-formed</em>. Hallucination guardrails ask another LLM whether it's <em>faithful to the prompt</em>. None of them check whether a structured fact is <em>actually correct against the real world</em> — because that needs deterministic computation or curated data, not another model's opinion. That's Qiniso.</p>
+    <div class="stat">
+      <div><b>~91%</b><span>of arbitrary IBAN/VIN-style identifiers a frontier LLM validates <strong>wrong</strong>, cold and silently. Qiniso: 0%.</span></div>
+      <div><b>33</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
+      <div><b>0</b><span>API keys, secrets or user data required — stateless, nothing to authorize.</span></div>
+    </div>
+    <p class="note">It verifies facts you give it; it is not a live-data provider and never asks for your credentials.</p>
+  </section>
+
+  <section>
+    <h2>What it verifies</h2>
+    <div class="grid">
+      <div class="mod"><h3>Identifiers</h3><p>IBAN, payment card (Luhn + brand), ISBN-13, VIN.</p></div>
+      <div class="mod"><h3>Web / network</h3><p>TLD &amp; domain (IANA root zone), IP, UUID, URL, email.</p></div>
+      <div class="mod"><h3>Finance</h3><p>ISIN, CUSIP, SEDOL, LEI, US ABA routing.</p></div>
+      <div class="mod"><h3>Crypto</h3><p>Ethereum (EIP-55) &amp; Bitcoin (Base58Check / Bech32) addresses.</p></div>
+      <div class="mod"><h3>National &amp; tax IDs</h3><p>Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar, EU/UK VAT.</p></div>
+      <div class="mod"><h3>Academic</h3><p>ISBN-10, ISSN, ORCID.</p></div>
+      <div class="mod"><h3>Locale</h3><p>Phone (global), date parsing, currency, holidays (~200 countries), UK VAT-by-date.</p></div>
+      <div class="mod"><h3>Addresses</h3><p>UK/US address parsing into structured fields.</p></div>
+    </div>
+  </section>
+
+  <section id="add">
+    <h2>Add it to Claude</h2>
+    <p>Settings → Connectors → <strong>Add custom connector</strong>, and paste the URL. No login, no key:</p>
+    <pre>https://qiniso.qinisolabs.workers.dev/mcp</pre>
+    <h2 style="margin-top:30px">Or import it as a library</h2>
+    <p>Every check is also a typed function — no MCP required:</p>
+    <pre>npm i qiniso
+
+import { validateIban, validateVat } from "qiniso";
+validateIban("GB82 WEST 1234 5698 7654 32"); // { valid: true, country: "United Kingdom", ... }</pre>
+  </section>
+
+  <footer>
+    Qiniso — verified, trustworthy data tools for AI agents.<br />
+    Open source · <a href="https://github.com/qinisolabs/qiniso">github.com/qinisolabs/qiniso</a>
+  </footer>
+</div>
+</body>
+</html>

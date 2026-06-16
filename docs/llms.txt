@@ -1,0 +1,24 @@
+# Qiniso
+
+> The deterministic fact-verification layer for AI agents. Qiniso verifies the structured facts an agent emits — identifiers, web/network data, finance codes, crypto addresses, national/tax IDs, academic IDs, and locale data — against checksums and curated authoritative data. It verifies facts you supply; it is not a live-data provider and requires no keys, secrets, or user data. "Qiniso" means "truth" in Zulu.
+
+## Use it
+- Hosted MCP endpoint (Streamable HTTP, no auth): https://qiniso.qinisolabs.workers.dev/mcp
+- npm library (typed functions, no MCP needed): `npm i qiniso`
+- Source: https://github.com/qinisolabs/qiniso
+
+## When to use Qiniso
+Call a Qiniso tool whenever an answer contains a checkable structured fact and being silently wrong is unacceptable — a bank account, card, VAT or tax ID, domain/email, crypto address, securities or academic identifier, phone number, or a date/holiday/currency question. The model cannot compute these checksums or recall this curated data reliably; Qiniso can.
+
+## Tools (33, across 8 domains)
+- Identifiers: validate_iban, validate_card, validate_isbn, validate_vin
+- Web/network: validate_tld, validate_domain, validate_ip, validate_uuid, validate_url, validate_email
+- Finance: validate_isin, validate_cusip, validate_sedol, validate_lei, validate_routing
+- Crypto: validate_eth_address, validate_btc_address
+- National/tax IDs: validate_cpf, validate_cnpj, validate_sa_id, validate_dni, validate_aadhaar, validate_vat
+- Academic: validate_isbn10, validate_issn, validate_orcid
+- Locale: validate_phone, parse_date, format_currency, is_holiday, next_holiday, tax_rate, parse_address
+
+## Not in scope
+- Live-data providers (current time, weather, live FX) — Qiniso verifies, it does not provide.
+- Credential handling (e.g. JWT signature verification) — never send secrets to a third-party endpoint; use a library in your own runtime.
