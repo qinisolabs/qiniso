@@ -45,6 +45,7 @@
     "@qiniso/locale": "*",
     "@qiniso/national-id": "*",
     "@qiniso/network": "*",
+    "@qiniso/vat": "*",
     "zod": "^3.23.0"
   }
 }

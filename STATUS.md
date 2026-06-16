@@ -76,7 +76,13 @@ First consolidation build. **Working name `qiniso`** — not locked, nothing pub
   connectors can be retired after redeploy.
 - ⚠️ date-holidays runtime on Workers: bundles clean; confirm holiday tools live after redeploy.
 
-## Current module map (all built & tested — 211 tests total)
+## ✅ Added 2026-06-16 (cont.) — vat module
+- **`packages/vat`** — `validate_vat`: EU/EFTA VAT number format+checksum via `jsvat-next`
+  (multi-arg: number + optional country). Offline/deterministic; does NOT do VIES live-registration
+  (hosted tier). 12/12 parity (7 countries valid + tampered/prefix cases). Worker bundles clean (363 KB gz).
+- **Wired into umbrella → now 33 tools.** 23/23 smoke.
+
+## Current module map (all built & tested — 224 tests total)
 - `identifiers` (4): iban, card, isbn, vin — 39 tests
 - `network` (6): tld, domain, ip, uuid, url, email — 54 tests
 - `finance` (5): isin, cusip, sedol, lei, routing — 24 tests
@@ -84,7 +90,8 @@ First consolidation build. **Working name `qiniso`** — not locked, nothing pub
 - `national-id` (5): cpf, cnpj, sa_id, dni, aadhaar — 14 tests
 - `academic` (3): isbn10, issn, orcid — 10 tests
 - `locale` (7): phone, parse_date, format_currency, is_holiday, next_holiday, tax_rate, parse_address — 34 tests
-- `qiniso` umbrella: 32 tools over stdio + HTTP + Worker — 22 smoke tests
+- `vat` (1): validate_vat — 12 tests
+- `qiniso` umbrella: 33 tools over stdio + HTTP + Worker — 23 smoke tests
 
 ## ⚠️ Deployed Worker is the 15-tool version — REDEPLOY to publish crypto
 The live edge endpoint still runs the pre-crypto build. To push 17 tools live, on your Mac:

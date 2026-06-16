@@ -1,0 +1,26 @@
+{
+  "name": "@qiniso/vat",
+  "version": "0.1.0",
+  "description": "Deterministic EU/EFTA VAT-number validation (format + checksum) via jsvat.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": ["vat", "eu-vat", "vies", "tax", "validation", "mcp"],
+  "license": "Apache-2.0",
+  "author": "Qiniso",
+  "dependencies": {
+    "jsvat-next": "^2.5.0"
+  }
+}

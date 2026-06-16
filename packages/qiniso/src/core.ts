@@ -41,6 +41,7 @@ import {
   vatRate,
   parseAddress,
 } from "@qiniso/locale";
+import { validateVat } from "@qiniso/vat";
 import { ICONS, PUBLIC_BASE } from "./branding.js";
 
 export interface ToolArg {
@@ -334,6 +335,16 @@ export const TOOLS: ToolSpec[] = [
       "USE THIS to extract structured {country, postcode, city, state} from a free-text UK or US address — when onboarding a user, running a KYC/fraud check, or storing an address — instead of splitting the string yourself. Returns a confidence flag.",
     args: [{ name: "input", description: "The free-text address." }],
     runArgs: (a) => parseAddress(a.input ?? ""),
+  },
+  {
+    name: "validate_vat",
+    description:
+      "USE THIS to verify an EU/EFTA VAT registration number's format and checksum before invoicing or onboarding a business — instead of trusting it looks right. Covers all EU members plus UK/EFTA. Pass the full number incl. country prefix (e.g. DE136695976) or the digits plus a country code. NOTE: checks format+checksum only; does NOT confirm the number is live-registered (that is a VIES lookup).",
+    args: [
+      { name: "vat", description: "The VAT number, ideally with its country prefix (e.g. DE136695976)." },
+      { name: "country", description: "ISO country code, if the number has no prefix (e.g. DE).", optional: true },
+    ],
+    runArgs: (a) => validateVat(a.vat ?? "", a.country),
   },
 ];
 

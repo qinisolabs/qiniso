@@ -25,7 +25,7 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 32 tools with schemas", () => {
+check("tools/list returns all 33 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
@@ -36,7 +36,7 @@ check("tools/list returns all 32 tools with schemas", () => {
     "validate_isbn", "validate_isbn10", "validate_isin", "validate_issn",
     "validate_lei", "validate_orcid", "validate_phone", "validate_routing",
     "validate_sa_id", "validate_sedol", "validate_tld", "validate_url",
-    "validate_uuid", "validate_vin",
+    "validate_uuid", "validate_vat", "validate_vin",
   ]);
   for (const t of r.result.tools) {
     assert.equal(t.inputSchema.type, "object");
@@ -150,6 +150,15 @@ check("multi-arg parse_date — UK day-first vs US month-first", () => {
 check("multi-arg tool with all-optional args (next_holiday) callable with no args", () => {
   const r = rpc("tools/call", { name: "next_holiday", arguments: {} });
   assert.ok(JSON.parse(r.result.content[0].text).ok);
+});
+
+check("multi-arg validate_vat — German VAT valid vs tampered", () => {
+  const ok = rpc("tools/call", { name: "validate_vat", arguments: { vat: "DE136695976" } });
+  const bad = rpc("tools/call", { name: "validate_vat", arguments: { vat: "DE136695977" } });
+  const prefixed = rpc("tools/call", { name: "validate_vat", arguments: { vat: "136695976", country: "DE" } });
+  assert.equal(JSON.parse(ok.result.content[0].text).valid, true);
+  assert.equal(JSON.parse(bad.result.content[0].text).valid, false);
+  assert.equal(JSON.parse(prefixed.result.content[0].text).valid, true);
 });
 
 check("unknown tool → JSON-RPC error", () => {
