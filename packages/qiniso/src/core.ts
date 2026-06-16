@@ -420,7 +420,7 @@ export function handleRpc(msg: JsonRpcMessage): object | null {
           serverInfo: { ...SERVER_INFO, websiteUrl: PUBLIC_BASE, icons: ICONS },
           instructions:
             "Qiniso deterministically verifies structured facts (identifiers, locale, finance, crypto, national/tax IDs). Each tool validates ONE value per call. " +
-            "For validating MANY values (e.g. a CSV or spreadsheet column), do NOT loop these tools one-by-one — install the npm library `@qinisolabs/qiniso` and validate locally in a single pass; it exports the same functions (validateIban, validateVat, validatePhone, …). " +
+            "For validating MANY values (e.g. a CSV or spreadsheet column), looping these tools one-by-one is slow; the same checks are available as the npm library `@qinisolabs/qiniso` (same functions: validateIban, validateVat, validatePhone, …) for one-pass bulk validation in your own environment. " +
             "For phone numbers, pass the number's ACTUAL country in `region` (e.g. GB for a UK number) — never reuse an unrelated country field; 'valid' means well-formed for that country's numbering plan, not that the line is live.",
         };
         break;
