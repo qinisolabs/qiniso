@@ -25,14 +25,16 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 17 tools with schemas", () => {
+check("tools/list returns all 22 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
-    "validate_btc_address", "validate_card", "validate_cusip", "validate_domain",
+    "validate_aadhaar", "validate_btc_address", "validate_card", "validate_cnpj",
+    "validate_cpf", "validate_cusip", "validate_dni", "validate_domain",
     "validate_email", "validate_eth_address", "validate_iban", "validate_ip",
     "validate_isbn", "validate_isin", "validate_lei", "validate_routing",
-    "validate_sedol", "validate_tld", "validate_url", "validate_uuid", "validate_vin",
+    "validate_sa_id", "validate_sedol", "validate_tld", "validate_url",
+    "validate_uuid", "validate_vin",
   ]);
   for (const t of r.result.tools) {
     assert.equal(t.inputSchema.type, "object");
@@ -100,6 +102,20 @@ check("tools/call validate_eth_address — EIP-55 valid vs tampered", () => {
 check("tools/call validate_btc_address — genesis valid", () => {
   const r = rpc("tools/call", { name: "validate_btc_address", arguments: { address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" } });
   assert.equal(JSON.parse(r.result.content[0].text).valid, true);
+});
+
+check("tools/call validate_cpf — valid vs tampered", () => {
+  const ok = rpc("tools/call", { name: "validate_cpf", arguments: { cpf: "111.444.777-35" } });
+  const bad = rpc("tools/call", { name: "validate_cpf", arguments: { cpf: "111.444.777-36" } });
+  assert.equal(JSON.parse(ok.result.content[0].text).valid, true);
+  assert.equal(JSON.parse(bad.result.content[0].text).valid, false);
+});
+
+check("tools/call validate_sa_id — extracts DOB", () => {
+  const r = rpc("tools/call", { name: "validate_sa_id", arguments: { id: "8001015009087" } });
+  const p = JSON.parse(r.result.content[0].text);
+  assert.equal(p.valid, true);
+  assert.equal(p.dateOfBirth, "1980-01-01");
 });
 
 check("unknown tool → JSON-RPC error", () => {

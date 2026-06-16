@@ -51,12 +51,21 @@ First consolidation build. **Working name `qiniso`** — not locked, nothing pub
 - **Wired into umbrella → now 17 tools.** 15/15 smoke. Verified live over local HTTP (EIP-55
   valid; one-char case-flip → rejected; taproot recognised).
 
-## Current module map (all built & tested — 146 tests total)
+## ✅ Added 2026-06-16 (cont.) — national-id module
+- **`packages/national-id`** — deterministic national/tax-ID checksums: `validate_cpf` + `validate_cnpj`
+  (Brazil mod-11), `validate_sa_id` (South Africa Luhn + DOB/gender/citizenship extraction),
+  `validate_dni` (Spain DNI/NIE mod-23), `validate_aadhaar` (India Verhoeff). KYC/onboarding surface.
+  **14/14 parity tests** vs known-valid vectors (CPF 111.444.777-35, CNPJ 11.222.333/0001-81,
+  SA ID 8001015009087→1980-01-01, DNI 12345678Z, NIE X1234567L, Aadhaar Verhoeff round-trip).
+- **Wired into umbrella → now 22 tools.** 17/17 smoke. Verified on compiled artifact.
+
+## Current module map (all built & tested — 162 tests total)
 - `identifiers` (4): iban, card, isbn, vin — 39 tests
 - `network` (6): tld, domain, ip, uuid, url, email — 54 tests
 - `finance` (5): isin, cusip, sedol, lei, routing — 24 tests
 - `crypto` (2): eth_address, btc_address — 14 tests
-- `qiniso` umbrella: 17 tools over stdio + HTTP + Worker — 15 smoke tests
+- `national-id` (5): cpf, cnpj, sa_id, dni, aadhaar — 14 tests
+- `qiniso` umbrella: 22 tools over stdio + HTTP + Worker — 17 smoke tests
 
 ## ⚠️ Deployed Worker is the 15-tool version — REDEPLOY to publish crypto
 The live edge endpoint still runs the pre-crypto build. To push 17 tools live, on your Mac:

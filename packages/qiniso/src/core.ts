@@ -24,6 +24,13 @@ import {
   validateAba,
 } from "@qiniso/finance";
 import { validateEthAddress, validateBtcAddress } from "@qiniso/crypto";
+import {
+  validateCpf,
+  validateCnpj,
+  validateSaId,
+  validateDni,
+  validateAadhaar,
+} from "@qiniso/national-id";
 import { ICONS, PUBLIC_BASE } from "./branding.js";
 
 export interface ToolSpec {
@@ -171,6 +178,46 @@ export const TOOLS: ToolSpec[] = [
     argName: "address",
     argDescription: "The Bitcoin address (legacy 1…/3… or bech32 bc1…).",
     run: (v) => validateBtcAddress(v),
+  },
+  {
+    name: "validate_cpf",
+    description:
+      "USE THIS to verify a Brazilian CPF (individual taxpayer ID) before relying on it — never assume 11 digits are valid. Checks the two mod-11 check digits and rejects all-identical sentinels. Call this for KYC/onboarding of Brazilian individuals.",
+    argName: "cpf",
+    argDescription: "The CPF (11 digits; dots and dash are ignored).",
+    run: (v) => validateCpf(v),
+  },
+  {
+    name: "validate_cnpj",
+    description:
+      "USE THIS to verify a Brazilian CNPJ (company registration number) instead of trusting 14 digits. Checks the two mod-11 check digits. Call this for onboarding Brazilian businesses.",
+    argName: "cnpj",
+    argDescription: "The CNPJ (14 digits; punctuation is ignored).",
+    run: (v) => validateCnpj(v),
+  },
+  {
+    name: "validate_sa_id",
+    description:
+      "USE THIS to verify a South African ID number before relying on it. Checks the Luhn check digit and date-of-birth validity, and returns the date of birth, gender and citizenship status encoded in the number.",
+    argName: "id",
+    argDescription: "The 13-digit South African ID number.",
+    run: (v) => validateSaId(v),
+  },
+  {
+    name: "validate_dni",
+    description:
+      "USE THIS to verify a Spanish DNI or NIE before relying on it — do not guess the control letter. Checks the mod-23 control letter and returns whether it is a DNI or NIE.",
+    argName: "id",
+    argDescription: "The Spanish DNI (8 digits + letter) or NIE (X/Y/Z + 7 digits + letter).",
+    run: (v) => validateDni(v),
+  },
+  {
+    name: "validate_aadhaar",
+    description:
+      "USE THIS to verify the format and checksum of an Indian Aadhaar number — never assume 12 digits are valid. Checks the Verhoeff check digit and the leading-digit rule. Validates structure only; does NOT look the number up.",
+    argName: "aadhaar",
+    argDescription: "The 12-digit Aadhaar number (spaces ignored).",
+    run: (v) => validateAadhaar(v),
   },
 ];
 

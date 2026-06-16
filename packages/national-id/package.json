@@ -1,0 +1,37 @@
+{
+  "name": "@qiniso/national-id",
+  "version": "0.1.0",
+  "description": "Deterministic national / tax ID validation — Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": [
+    "cpf",
+    "cnpj",
+    "national-id",
+    "aadhaar",
+    "dni",
+    "nie",
+    "tax-id",
+    "validation",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "author": "Qiniso"
+}
