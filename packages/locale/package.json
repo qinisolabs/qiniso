@@ -1,0 +1,27 @@
+{
+  "name": "@qiniso/locale",
+  "version": "0.1.0",
+  "description": "Locale-correct verification — dates, phone (global), currency, VAT/sales tax by date, holidays, addresses.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc && cp -r src/data dist/data",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": ["locale", "phone", "date", "currency", "vat", "holidays", "address", "validation", "mcp"],
+  "license": "Apache-2.0",
+  "author": "Qiniso",
+  "dependencies": {
+    "date-holidays": "^3.23.0",
+    "libphonenumber-js": "^1.11.0"
+  }
+}

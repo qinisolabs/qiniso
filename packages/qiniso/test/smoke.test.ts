@@ -25,16 +25,18 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 25 tools with schemas", () => {
+check("tools/list returns all 32 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
-    "validate_aadhaar", "validate_btc_address", "validate_card", "validate_cnpj",
-    "validate_cpf", "validate_cusip", "validate_dni", "validate_domain",
+    "format_currency", "is_holiday", "next_holiday", "parse_address", "parse_date",
+    "tax_rate", "validate_aadhaar", "validate_btc_address", "validate_card",
+    "validate_cnpj", "validate_cpf", "validate_cusip", "validate_dni", "validate_domain",
     "validate_email", "validate_eth_address", "validate_iban", "validate_ip",
     "validate_isbn", "validate_isbn10", "validate_isin", "validate_issn",
-    "validate_lei", "validate_orcid", "validate_routing", "validate_sa_id",
-    "validate_sedol", "validate_tld", "validate_url", "validate_uuid", "validate_vin",
+    "validate_lei", "validate_orcid", "validate_phone", "validate_routing",
+    "validate_sa_id", "validate_sedol", "validate_tld", "validate_url",
+    "validate_uuid", "validate_vin",
   ]);
   for (const t of r.result.tools) {
     assert.equal(t.inputSchema.type, "object");
@@ -121,6 +123,33 @@ check("tools/call validate_sa_id — extracts DOB", () => {
 check("tools/call validate_orcid — canonical valid", () => {
   const r = rpc("tools/call", { name: "validate_orcid", arguments: { orcid: "0000-0002-1825-0097" } });
   assert.equal(JSON.parse(r.result.content[0].text).valid, true);
+});
+
+// --- multi-arg tools (the new ToolSpec path) ---
+check("multi-arg validate_phone — ZA region", () => {
+  const r = rpc("tools/call", { name: "validate_phone", arguments: { number: "012 661 8768", region: "ZA" } });
+  const p = JSON.parse(r.result.content[0].text);
+  assert.equal(p.valid, true);
+  assert.equal(p.e164, "+27126618768");
+});
+
+check("multi-arg tax_rate — UK VAT is date-sensitive", () => {
+  const now = rpc("tools/call", { name: "tax_rate", arguments: { country: "GB", date: "2024-06-01" } });
+  const old = rpc("tools/call", { name: "tax_rate", arguments: { country: "GB", date: "2010-01-01" } });
+  assert.equal(JSON.parse(now.result.content[0].text).rate, 20); // 20% from 2011-01-04
+  assert.equal(JSON.parse(old.result.content[0].text).rate, 17.5); // 17.5% on 2010-01-01
+});
+
+check("multi-arg parse_date — UK day-first vs US month-first", () => {
+  const gb = rpc("tools/call", { name: "parse_date", arguments: { input: "03/04/2025", locale: "en-GB" } });
+  const us = rpc("tools/call", { name: "parse_date", arguments: { input: "03/04/2025", locale: "en-US" } });
+  assert.equal(JSON.parse(gb.result.content[0].text).iso, "2025-04-03");
+  assert.equal(JSON.parse(us.result.content[0].text).iso, "2025-03-04");
+});
+
+check("multi-arg tool with all-optional args (next_holiday) callable with no args", () => {
+  const r = rpc("tools/call", { name: "next_holiday", arguments: {} });
+  assert.ok(JSON.parse(r.result.content[0].text).ok);
 });
 
 check("unknown tool → JSON-RPC error", () => {

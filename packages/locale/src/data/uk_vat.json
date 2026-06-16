@@ -1,0 +1,16 @@
+{
+  "country": "GB",
+  "tax_name": "VAT",
+  "source": "HM Revenue & Customs standard-rate history (public record)",
+  "last_verified": "2026-06-14",
+  "note": "Standard rate only. Reduced (5%) and zero rates are separate and not modelled here. Ranges are inclusive of start, exclusive of next start. Verify pre-1991 values before production use.",
+  "standard_rate_history": [
+    {"from": "1979-06-18", "rate": 15.0},
+    {"from": "1991-04-01", "rate": 17.5},
+    {"from": "2008-12-01", "rate": 15.0, "note": "Temporary cut (financial crisis)"},
+    {"from": "2010-01-01", "rate": 17.5, "note": "Reverted"},
+    {"from": "2011-01-04", "rate": 20.0, "note": "Current standard rate"}
+  ],
+  "reduced_rate": 5.0,
+  "zero_rate": 0.0
+}

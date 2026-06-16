@@ -32,14 +32,34 @@ import {
   validateAadhaar,
 } from "@qiniso/national-id";
 import { validateIsbn10, validateIssn, validateOrcid } from "@qiniso/academic";
+import {
+  parseDate,
+  validatePhone,
+  formatMoney,
+  isHoliday,
+  nextHoliday,
+  vatRate,
+  parseAddress,
+} from "@qiniso/locale";
 import { ICONS, PUBLIC_BASE } from "./branding.js";
 
+export interface ToolArg {
+  name: string;
+  description: string;
+  optional?: boolean;
+}
+
+// A tool is EITHER single-arg (argName/argDescription/run) — the original shape,
+// left untouched — OR multi-arg (args/runArgs) for tools like locale that need
+// several inputs (e.g. a phone number + region).
 export interface ToolSpec {
   name: string;
   description: string;
-  argName: string;
-  argDescription: string;
-  run: (value: string) => unknown;
+  argName?: string;
+  argDescription?: string;
+  run?: (value: string) => unknown;
+  args?: ToolArg[];
+  runArgs?: (a: Record<string, string | undefined>) => unknown;
 }
 
 /** Every checkable-fact tool the layer exposes. New modules append here. */
@@ -244,18 +264,94 @@ export const TOOLS: ToolSpec[] = [
     argDescription: "The ORCID (e.g. 0000-0002-1825-0097, or an orcid.org URL).",
     run: (v) => validateOrcid(v),
   },
+  {
+    name: "validate_phone",
+    description:
+      "USE THIS to verify a phone number and normalise it to E.164 before saving, dialling or sending an SMS — instead of trusting raw input. Global (libphonenumber-js): pass the ISO country the number belongs to (e.g. GB, US, ZA, DE). Returns validity, E.164, national/international formats and line type.",
+    args: [
+      { name: "number", description: "The phone number to validate." },
+      { name: "region", description: "ISO country code the number belongs to (default GB).", optional: true },
+    ],
+    runArgs: (a) => validatePhone(a.number ?? "", a.region ?? "GB"),
+  },
+  {
+    name: "parse_date",
+    description:
+      "USE THIS to interpret a human-written date into ISO 8601 (YYYY-MM-DD), especially ambiguous numeric dates like 03/04/2025 which mean different things in the UK (day-first) vs US (month-first). Pass locale 'en-GB' or 'en-US'. Returns valid:false for impossible dates.",
+    args: [
+      { name: "input", description: "The date text to parse." },
+      { name: "locale", description: "'en-GB' (day-first) or 'en-US' (month-first); default en-GB.", optional: true },
+    ],
+    runArgs: (a) => parseDate(a.input ?? "", a.locale ?? "en-GB"),
+  },
+  {
+    name: "format_currency",
+    description:
+      "USE THIS to format a money amount the way a reader in a locale expects (symbol position, separators) before showing it in a price, invoice or email. e.g. 1234.5 GBP en-GB → '£1,234.50'.",
+    args: [
+      { name: "amount", description: "The numeric amount." },
+      { name: "currency", description: "ISO 4217 currency code (default GBP).", optional: true },
+      { name: "locale", description: "BCP-47 locale (e.g. en-GB). Defaults from the currency.", optional: true },
+    ],
+    runArgs: (a) => formatMoney(Number(a.amount), a.currency ?? "GBP", a.locale),
+  },
+  {
+    name: "is_holiday",
+    description:
+      "USE THIS to check whether a date is a public/bank holiday when computing business-day deadlines, delivery SLAs or 'next working day'. Country GB or US; GB defaults to England — pass subdiv 'SCT'/'WLS'/'NIR' or a US state code.",
+    args: [
+      { name: "date", description: "The date (YYYY-MM-DD)." },
+      { name: "country", description: "GB or US (default GB).", optional: true },
+      { name: "subdiv", description: "UK nation (SCT/WLS/NIR) or US state code.", optional: true },
+    ],
+    runArgs: (a) => isHoliday(a.date ?? "", a.country ?? "GB", a.subdiv),
+  },
+  {
+    name: "next_holiday",
+    description:
+      "USE THIS to find the next public/bank holiday on or after a date (default today) — e.g. to find the next working day. Country GB or US; subdiv narrows to a UK nation or US state.",
+    args: [
+      { name: "country", description: "GB or US (default GB).", optional: true },
+      { name: "after", description: "Find the next holiday on/after this date (YYYY-MM-DD); default today.", optional: true },
+      { name: "subdiv", description: "UK nation (SCT/WLS/NIR) or US state code.", optional: true },
+    ],
+    runArgs: (a) => nextHoliday(a.country ?? "GB", a.after, a.subdiv),
+  },
+  {
+    name: "tax_rate",
+    description:
+      "USE THIS before calculating VAT or sales tax on an invoice/quote — never recall the rate from memory, it is DATE-SENSITIVE. GB returns the UK standard VAT rate that applied on the given date (handles historical/temporary changes). US has no national VAT (returns 0); pass a state code for the state base sales-tax rate. Always pass the invoice date for GB.",
+    args: [
+      { name: "country", description: "GB or US (default GB).", optional: true },
+      { name: "date", description: "The invoice date (YYYY-MM-DD); default today.", optional: true },
+      { name: "state", description: "US state code (e.g. CA) for sales tax.", optional: true },
+    ],
+    runArgs: (a) => vatRate(a.country ?? "GB", a.date, a.state),
+  },
+  {
+    name: "parse_address",
+    description:
+      "USE THIS to extract structured {country, postcode, city, state} from a free-text UK or US address — when onboarding a user, running a KYC/fraud check, or storing an address — instead of splitting the string yourself. Returns a confidence flag.",
+    args: [{ name: "input", description: "The free-text address." }],
+    runArgs: (a) => parseAddress(a.input ?? ""),
+  },
 ];
 
 export const SERVER_INFO = { name: "qiniso", version: "0.1.0" } as const;
 const DEFAULT_PROTOCOL = "2025-06-18";
 
+function argList(t: ToolSpec): ToolArg[] {
+  return t.args ?? [{ name: t.argName!, description: t.argDescription! }];
+}
+
 function inputSchema(t: ToolSpec) {
-  return {
-    type: "object",
-    properties: { [t.argName]: { type: "string", description: t.argDescription } },
-    required: [t.argName],
-    additionalProperties: false,
-  };
+  const properties: Record<string, unknown> = {};
+  const required: string[] = [];
+  for (const a of argList(t)) {
+    properties[a.name] = { type: "string", description: a.description };
+    if (!a.optional) required.push(a.name);
+  }
+  return { type: "object", properties, required, additionalProperties: false };
 }
 
 export function listTools() {
@@ -273,11 +369,19 @@ export function callTool(name: string, args: Record<string, unknown> | undefined
     e.code = -32602;
     throw e;
   }
-  const value = args?.[t.argName];
+  let result: unknown;
+  if (t.args) {
+    const a: Record<string, string | undefined> = {};
+    for (const arg of t.args) {
+      const v = args?.[arg.name];
+      a[arg.name] = v === undefined || v === null ? undefined : String(v);
+    }
+    result = t.runArgs!(a);
+  } else {
+    result = t.run!(String(args?.[t.argName!] ?? ""));
+  }
   return {
-    content: [
-      { type: "text", text: JSON.stringify(t.run(String(value ?? "")), null, 2) },
-    ],
+    content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
   };
 }
 

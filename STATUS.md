@@ -64,14 +64,27 @@ First consolidation build. **Working name `qiniso`** — not locked, nothing pub
   `validate_orcid` (ISO 7064 MOD 11-2; accepts orcid.org URLs). 10/10 parity (canonical ORCID
   0000-0002-1825-0097, X-check ISBN-10, hyphenated forms). Wired → 25 tools; 18/18 smoke.
 
-## Current module map (all built & tested — 173 tests total)
+## ✅ Added 2026-06-16 (cont.) — ToolSpec multi-arg + locale module (localecheck migrated)
+- **`ToolSpec` generalised** to support multi-argument tools (additive; 25 single-arg tools untouched).
+- **`packages/locale`** — localecheck migrated in (source cloned from its repo): `validate_phone`
+  (now GLOBAL via libphonenumber-js — pass any ISO region), `parse_date` (locale day/month order),
+  `format_currency`, `is_holiday`, `next_holiday`, `tax_rate` (UK VAT by date — curated history),
+  `parse_address`. Refactored `vat.ts` node:fs→JSON import for Workers. **34/34 parity tests.**
+- **Wired into umbrella → now 32 tools.** 22/22 smoke (incl. multi-arg path: phone+region,
+  date-sensitive VAT, day-first vs month-first dates). Worker dry-run bundles clean (356 KB gz,
+  no node:fs). **Qiniso is now a superset of both veridigit AND localecheck** → the two standalone
+  connectors can be retired after redeploy.
+- ⚠️ date-holidays runtime on Workers: bundles clean; confirm holiday tools live after redeploy.
+
+## Current module map (all built & tested — 211 tests total)
 - `identifiers` (4): iban, card, isbn, vin — 39 tests
 - `network` (6): tld, domain, ip, uuid, url, email — 54 tests
 - `finance` (5): isin, cusip, sedol, lei, routing — 24 tests
 - `crypto` (2): eth_address, btc_address — 14 tests
 - `national-id` (5): cpf, cnpj, sa_id, dni, aadhaar — 14 tests
 - `academic` (3): isbn10, issn, orcid — 10 tests
-- `qiniso` umbrella: 25 tools over stdio + HTTP + Worker — 18 smoke tests
+- `locale` (7): phone, parse_date, format_currency, is_holiday, next_holiday, tax_rate, parse_address — 34 tests
+- `qiniso` umbrella: 32 tools over stdio + HTTP + Worker — 22 smoke tests
 
 ## ⚠️ Deployed Worker is the 15-tool version — REDEPLOY to publish crypto
 The live edge endpoint still runs the pre-crypto build. To push 17 tools live, on your Mac:
