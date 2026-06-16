@@ -34,8 +34,12 @@ Stateless, reads no user data, requires no secrets.
 
 Every check is also a typed function — no MCP required:
 
+```bash
+npm i @qinisolabs/qiniso
+```
+
 ```ts
-import { validateIban, validateVat } from "qiniso";
+import { validateIban, validateVat } from "@qinisolabs/qiniso";
 
 validateIban("GB82 WEST 1234 5698 7654 32");
 // { valid: true, country: "United Kingdom", ... }

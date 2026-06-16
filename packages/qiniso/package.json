@@ -1,5 +1,5 @@
 {
-  "name": "qiniso",
+  "name": "@qinisolabs/qiniso",
   "version": "0.1.0",
   "mcpName": "io.github.qinisolabs/qiniso",
   "description": "The deterministic fact-verification layer for AI agents — verify identifiers, locale and more against authoritative ground truth.",

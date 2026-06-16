@@ -4,7 +4,7 @@
 
 ## Use it
 - Hosted MCP endpoint (Streamable HTTP, no auth): https://qiniso.qinisolabs.workers.dev/mcp
-- npm library (typed functions, no MCP needed): `npm i qiniso`
+- npm library (typed functions, no MCP needed): `npm i @qinisolabs/qiniso`
 - Source: https://github.com/qinisolabs/qiniso
 
 ## When to use Qiniso

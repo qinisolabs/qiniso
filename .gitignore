@@ -3,3 +3,5 @@ dist/
 .wrangler/
 *.log
 .DS_Store
+# tsup's transient bundled-config file (should never be committed)
+tsup.config.bundled_*.mjs
