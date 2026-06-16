@@ -3,7 +3,7 @@
   "name": "io.github.qinisolabs/qiniso",
   "description": "Deterministic fact verification for AI agents — checksums & curated data, not guesses.",
   "title": "Qiniso",
-  "websiteUrl": "https://qiniso.qinisolabs.workers.dev",
+  "websiteUrl": "https://qinisolabs.github.io/qiniso/",
   "repository": {
     "url": "https://github.com/qinisolabs/qiniso",
     "source": "github",
