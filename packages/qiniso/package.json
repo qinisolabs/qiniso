@@ -1,8 +1,17 @@
 {
   "name": "@qinisolabs/qiniso",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "mcpName": "io.github.qinisolabs/qiniso",
   "description": "The deterministic fact-verification layer for AI agents — verify identifiers, locale and more against authoritative ground truth.",
+  "homepage": "https://qinisolabs.github.io/qiniso/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qinisolabs/qiniso.git",
+    "directory": "packages/qiniso"
+  },
+  "bugs": {
+    "url": "https://github.com/qinisolabs/qiniso/issues"
+  },
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
