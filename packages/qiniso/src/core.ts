@@ -299,22 +299,22 @@ export const TOOLS: ToolSpec[] = [
   {
     name: "is_holiday",
     description:
-      "USE THIS to check whether a date is a public/bank holiday when computing business-day deadlines, delivery SLAs or 'next working day'. Country GB or US; GB defaults to England — pass subdiv 'SCT'/'WLS'/'NIR' or a US state code.",
+      "USE THIS to check whether a date is a public/bank holiday when computing business-day deadlines, delivery SLAs or 'next working day'. Supports ~200 countries (ISO code, e.g. GB, US, ZA, DE, IN); GB defaults to England — pass a subdivision ('SCT'/'WLS'/'NIR', or a US state) to narrow.",
     args: [
       { name: "date", description: "The date (YYYY-MM-DD)." },
-      { name: "country", description: "GB or US (default GB).", optional: true },
-      { name: "subdiv", description: "UK nation (SCT/WLS/NIR) or US state code.", optional: true },
+      { name: "country", description: "ISO country code (default GB), e.g. GB, US, ZA, DE.", optional: true },
+      { name: "subdiv", description: "Subdivision code (e.g. UK nation SCT/WLS/NIR, or a US state).", optional: true },
     ],
     runArgs: (a) => isHoliday(a.date ?? "", a.country ?? "GB", a.subdiv),
   },
   {
     name: "next_holiday",
     description:
-      "USE THIS to find the next public/bank holiday on or after a date (default today) — e.g. to find the next working day. Country GB or US; subdiv narrows to a UK nation or US state.",
+      "USE THIS to find the next public/bank holiday on or after a date (default today) — e.g. to find the next working day. Supports ~200 countries (ISO code, e.g. GB, US, ZA, DE); subdivision narrows to a region.",
     args: [
-      { name: "country", description: "GB or US (default GB).", optional: true },
+      { name: "country", description: "ISO country code (default GB), e.g. GB, US, ZA, DE.", optional: true },
       { name: "after", description: "Find the next holiday on/after this date (YYYY-MM-DD); default today.", optional: true },
-      { name: "subdiv", description: "UK nation (SCT/WLS/NIR) or US state code.", optional: true },
+      { name: "subdiv", description: "Subdivision code (e.g. UK nation SCT/WLS/NIR, or a US state).", optional: true },
     ],
     runArgs: (a) => nextHoliday(a.country ?? "GB", a.after, a.subdiv),
   },

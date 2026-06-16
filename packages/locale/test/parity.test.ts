@@ -57,6 +57,11 @@ check("US July4", isHoliday("2025-07-04", "US").is_holiday, true);
 check("Scotland 2 Jan", isHoliday("2025-01-02", "GB", "SCT").is_holiday, true);
 check("England 2 Jan not", isHoliday("2025-01-02", "GB", "ENG").is_holiday, false);
 check("next holiday exists", typeof nextHoliday("US", "2025-06-14").date, "string");
+// Global coverage (no longer GB/US-only): South Africa Youth Day, 16 June.
+check("ZA Youth Day", isHoliday("2026-06-16", "ZA").is_holiday, true);
+check("ZA Youth Day name", isHoliday("2026-06-16", "ZA").name, "Youth Day");
+check("DE next holiday is a date", typeof nextHoliday("DE", "2026-01-01").date, "string");
+check("unknown country rejected", isHoliday("2026-06-16", "ZZ").ok, false);
 
 // address
 const ukA = parseAddress("221B Baker Street, London NW1 6XE, United Kingdom");

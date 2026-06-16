@@ -1,7 +1,11 @@
 // Public-holiday checks via date-holidays.
 import Holidays from "date-holidays";
 
-const SUPPORTED = new Set(["GB", "US"]);
+// Supported countries come from date-holidays itself (~200), not a hardcoded allowlist.
+const COUNTRIES: Record<string, string> = new Holidays().getCountries();
+function supported(country: string): boolean {
+  return Object.prototype.hasOwnProperty.call(COUNTRIES, country);
+}
 // The bare GB calendar omits some England bank holidays; default to England.
 const DEFAULT_SUBDIV: Record<string, string> = { GB: "ENG" };
 // Holiday types that count as "is it a day off / bank holiday".
@@ -34,7 +38,7 @@ export interface HolidayResult {
 
 export function isHoliday(date: string, country = "GB", subdiv?: string): HolidayResult {
   country = (country || "GB").toUpperCase();
-  if (!SUPPORTED.has(country)) return { ok: false, reason: `country ${country} not supported in v1` };
+  if (!supported(country)) return { ok: false, reason: `country ${country} not supported` };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { ok: false, reason: `bad date: ${date}` };
   const used = subdiv || DEFAULT_SUBDIV[country] || undefined;
   const cal = makeCal(country, used);
@@ -62,7 +66,7 @@ export interface NextHolidayResult {
 
 export function nextHoliday(country = "GB", after?: string, subdiv?: string): NextHolidayResult {
   country = (country || "GB").toUpperCase();
-  if (!SUPPORTED.has(country)) return { ok: false, reason: `country ${country} not supported in v1` };
+  if (!supported(country)) return { ok: false, reason: `country ${country} not supported` };
   const start = after && /^\d{4}-\d{2}-\d{2}$/.test(after) ? after : new Date().toISOString().slice(0, 10);
   const used = subdiv || DEFAULT_SUBDIV[country] || undefined;
   const cal = makeCal(country, used);
