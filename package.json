@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build:modules": "npm run build -w @qiniso/identifiers -w @qiniso/network -w @qiniso/finance -w @qiniso/crypto -w @qiniso/national-id -w @qiniso/academic -w @qiniso/locale -w @qiniso/vat",
-    "build": "npm run build:modules && npm run build -w qiniso",
+    "build": "npm run build:modules && npm run build -w @qinisolabs/qiniso",
     "test": "npm run test --workspaces --if-present",
     "clean": "rm -rf packages/*/dist"
   },
