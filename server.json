@@ -15,17 +15,5 @@
       "type": "streamable-http",
       "url": "https://qiniso.qinisolabs.workers.dev/mcp"
     }
-  ],
-  "packages": [
-    {
-      "registryType": "npm",
-      "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "qiniso",
-      "version": "0.1.0",
-      "runtimeHint": "npx",
-      "transport": {
-        "type": "stdio"
-      }
-    }
   ]
 }
