@@ -42,11 +42,30 @@ First consolidation build. **Working name `qiniso`** — not locked, nothing pub
 - **Wired into umbrella** → now **15 tools**. Smoke tests 13/13. Verified live over HTTP
   (Apple ISIN valid + country US, real LEI valid, tampered routing number rejected).
 
-## Current module map (all built & tested — 130 tests total)
+## ✅ Added 2026-06-16 (cont.) — crypto module
+- **`packages/crypto`** — wraps audited `@noble/hashes` + `@scure/base` (per "wrap authoritative
+  libraries"): `validate_eth_address` (EIP-55 keccak-256 mixed-case checksum — catches typos),
+  `validate_btc_address` (Base58Check P2PKH/P2SH + Bech32/Bech32m SegWit incl. Taproot). Highest-
+  stakes wedge: a wrong char = lost funds, and no LLM can compute these checksums. **14/14 parity
+  tests** vs real addresses (4 canonical EIP-55 vectors, genesis, taproot, tampered-rejections).
+- **Wired into umbrella → now 17 tools.** 15/15 smoke. Verified live over local HTTP (EIP-55
+  valid; one-char case-flip → rejected; taproot recognised).
+
+## Current module map (all built & tested — 146 tests total)
 - `identifiers` (4): iban, card, isbn, vin — 39 tests
 - `network` (6): tld, domain, ip, uuid, url, email — 54 tests
 - `finance` (5): isin, cusip, sedol, lei, routing — 24 tests
-- `qiniso` umbrella: 15 tools over stdio + HTTP + Worker — 13 smoke tests
+- `crypto` (2): eth_address, btc_address — 14 tests
+- `qiniso` umbrella: 17 tools over stdio + HTTP + Worker — 15 smoke tests
+
+## ⚠️ Deployed Worker is the 15-tool version — REDEPLOY to publish crypto
+The live edge endpoint still runs the pre-crypto build. To push 17 tools live, on your Mac:
+```bash
+cd "path/to/qiniso"
+npm install && npm run build
+cd packages/qiniso && npx wrangler deploy
+```
+Connector tools refresh automatically after redeploy.
 
 ## ⛔ Not done — needs you / next session
 1. **Migrate `localecheck` → `packages/locale`.** Its TS source isn't in this workspace (only

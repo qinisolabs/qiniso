@@ -1,0 +1,40 @@
+{
+  "name": "@qiniso/crypto",
+  "version": "0.1.0",
+  "description": "Deterministic crypto-address validation — Bitcoin (Base58Check + Bech32/Bech32m) and Ethereum (EIP-55).",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": [
+    "bitcoin",
+    "ethereum",
+    "eip-55",
+    "bech32",
+    "base58check",
+    "address",
+    "validation",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "author": "Qiniso",
+  "dependencies": {
+    "@noble/hashes": "^1.3.3",
+    "@scure/base": "^1.1.6"
+  }
+}

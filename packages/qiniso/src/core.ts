@@ -23,6 +23,7 @@ import {
   validateLei,
   validateAba,
 } from "@qiniso/finance";
+import { validateEthAddress, validateBtcAddress } from "@qiniso/crypto";
 
 export interface ToolSpec {
   name: string;
@@ -153,6 +154,22 @@ export const TOOLS: ToolSpec[] = [
     argName: "routing",
     argDescription: "The 9-digit ABA routing number.",
     run: (v) => validateAba(v),
+  },
+  {
+    name: "validate_eth_address",
+    description:
+      "USE THIS to verify an Ethereum address before sending funds or storing it — never trust that a 0x… string is correct. Validates the format and the EIP-55 mixed-case checksum (catches typos), and returns the correctly-checksummed form. A wrong character makes a different address — funds sent there are lost.",
+    argName: "address",
+    argDescription: "The Ethereum address (0x + 40 hex chars).",
+    run: (v) => validateEthAddress(v),
+  },
+  {
+    name: "validate_btc_address",
+    description:
+      "USE THIS to verify a Bitcoin address before sending funds or storing it — do not assume it is valid. Checks Base58Check (P2PKH/P2SH, double-SHA256 checksum) and Bech32/Bech32m SegWit (bc1…, incl. Taproot), and returns the address type and network. A bad checksum means a mistyped address.",
+    argName: "address",
+    argDescription: "The Bitcoin address (legacy 1…/3… or bech32 bc1…).",
+    run: (v) => validateBtcAddress(v),
   },
 ];
 

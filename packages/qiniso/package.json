@@ -38,6 +38,7 @@
   "author": "Qiniso",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.0",
+    "@qiniso/crypto": "*",
     "@qiniso/finance": "*",
     "@qiniso/identifiers": "*",
     "@qiniso/network": "*",
