@@ -59,13 +59,19 @@ First consolidation build. **Working name `qiniso`** — not locked, nothing pub
   SA ID 8001015009087→1980-01-01, DNI 12345678Z, NIE X1234567L, Aadhaar Verhoeff round-trip).
 - **Wired into umbrella → now 22 tools.** 17/17 smoke. Verified on compiled artifact.
 
-## Current module map (all built & tested — 162 tests total)
+## ✅ Added 2026-06-16 (cont.) — academic module
+- **`packages/academic`** — `validate_isbn10` (mod-11/X), `validate_issn` (mod-11/X),
+  `validate_orcid` (ISO 7064 MOD 11-2; accepts orcid.org URLs). 10/10 parity (canonical ORCID
+  0000-0002-1825-0097, X-check ISBN-10, hyphenated forms). Wired → 25 tools; 18/18 smoke.
+
+## Current module map (all built & tested — 173 tests total)
 - `identifiers` (4): iban, card, isbn, vin — 39 tests
 - `network` (6): tld, domain, ip, uuid, url, email — 54 tests
 - `finance` (5): isin, cusip, sedol, lei, routing — 24 tests
 - `crypto` (2): eth_address, btc_address — 14 tests
 - `national-id` (5): cpf, cnpj, sa_id, dni, aadhaar — 14 tests
-- `qiniso` umbrella: 22 tools over stdio + HTTP + Worker — 17 smoke tests
+- `academic` (3): isbn10, issn, orcid — 10 tests
+- `qiniso` umbrella: 25 tools over stdio + HTTP + Worker — 18 smoke tests
 
 ## ⚠️ Deployed Worker is the 15-tool version — REDEPLOY to publish crypto
 The live edge endpoint still runs the pre-crypto build. To push 17 tools live, on your Mac:

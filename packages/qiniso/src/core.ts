@@ -31,6 +31,7 @@ import {
   validateDni,
   validateAadhaar,
 } from "@qiniso/national-id";
+import { validateIsbn10, validateIssn, validateOrcid } from "@qiniso/academic";
 import { ICONS, PUBLIC_BASE } from "./branding.js";
 
 export interface ToolSpec {
@@ -218,6 +219,30 @@ export const TOOLS: ToolSpec[] = [
     argName: "aadhaar",
     argDescription: "The 12-digit Aadhaar number (spaces ignored).",
     run: (v) => validateAadhaar(v),
+  },
+  {
+    name: "validate_isbn10",
+    description:
+      "USE THIS to verify an ISBN-10 (older book identifier) instead of trusting 10 characters. Checks the mod-11 check digit (which may be 'X'). For 13-digit ISBNs use validate_isbn.",
+    argName: "isbn",
+    argDescription: "The ISBN-10 (hyphens/spaces ignored).",
+    run: (v) => validateIsbn10(v),
+  },
+  {
+    name: "validate_issn",
+    description:
+      "USE THIS to verify an ISSN (serial/journal identifier) before relying on it. Checks the mod-11 check digit (which may be 'X') and returns the expected digit when it fails.",
+    argName: "issn",
+    argDescription: "The ISSN (8 chars; hyphen ignored).",
+    run: (v) => validateIssn(v),
+  },
+  {
+    name: "validate_orcid",
+    description:
+      "USE THIS to verify an ORCID researcher identifier instead of trusting 16 digits. Checks the ISO 7064 MOD 11-2 check digit (which may be 'X'); accepts the bare ID or an orcid.org URL.",
+    argName: "orcid",
+    argDescription: "The ORCID (e.g. 0000-0002-1825-0097, or an orcid.org URL).",
+    run: (v) => validateOrcid(v),
   },
 ];
 

@@ -1,0 +1,23 @@
+{
+  "name": "@qiniso/academic",
+  "version": "0.1.0",
+  "description": "Deterministic validation of academic/publishing identifiers — ISBN-10, ISSN, ORCID.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": ["isbn", "issn", "orcid", "academic", "publishing", "validation", "mcp"],
+  "license": "Apache-2.0",
+  "author": "Qiniso"
+}
