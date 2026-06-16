@@ -1,0 +1,56 @@
+{
+  "note": "IIN/BIN brand ranges. Detection uses longest-prefix-wins across all rules.",
+  "brands": [
+    {
+      "brand": "Visa",
+      "rules": [{ "min": 4, "max": 4, "len": 1 }],
+      "lengths": [13, 16, 19]
+    },
+    {
+      "brand": "Mastercard",
+      "rules": [
+        { "min": 51, "max": 55, "len": 2 },
+        { "min": 2221, "max": 2720, "len": 4 }
+      ],
+      "lengths": [16]
+    },
+    {
+      "brand": "American Express",
+      "rules": [
+        { "min": 34, "max": 34, "len": 2 },
+        { "min": 37, "max": 37, "len": 2 }
+      ],
+      "lengths": [15]
+    },
+    {
+      "brand": "Discover",
+      "rules": [
+        { "min": 6011, "max": 6011, "len": 4 },
+        { "min": 644, "max": 649, "len": 3 },
+        { "min": 65, "max": 65, "len": 2 },
+        { "min": 622126, "max": 622925, "len": 6 }
+      ],
+      "lengths": [16, 19]
+    },
+    {
+      "brand": "Diners Club",
+      "rules": [
+        { "min": 300, "max": 305, "len": 3 },
+        { "min": 3095, "max": 3095, "len": 4 },
+        { "min": 36, "max": 36, "len": 2 },
+        { "min": 38, "max": 39, "len": 2 }
+      ],
+      "lengths": [14, 16, 19]
+    },
+    {
+      "brand": "JCB",
+      "rules": [{ "min": 3528, "max": 3589, "len": 4 }],
+      "lengths": [16, 17, 18, 19]
+    },
+    {
+      "brand": "UnionPay",
+      "rules": [{ "min": 62, "max": 62, "len": 2 }],
+      "lengths": [16, 17, 18, 19]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Cloudflare Worker deploy config for the hosted (edge) endpoint.
+# Requires wrangler installed globally: `npm i -g wrangler`, then `wrangler deploy`.
+# Free tier: 100k requests/day. wrangler bundles the TS entry (esbuild) and inlines
+# the JSON data modules, so no node:fs is needed.
+name = "qiniso"
+main = "src/worker.ts"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+# After deploy the endpoint is:  https://qiniso.<your-subdomain>.workers.dev/mcp
+# Add a custom domain later (e.g. mcp.qiniso.dev) once the name is locked.

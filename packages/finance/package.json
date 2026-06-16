@@ -1,0 +1,37 @@
+{
+  "name": "@qiniso/finance",
+  "version": "0.1.0",
+  "description": "Deterministic validation of financial identifiers — ISIN, CUSIP, SEDOL, LEI, ABA routing.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": [
+    "isin",
+    "cusip",
+    "sedol",
+    "lei",
+    "aba",
+    "routing-number",
+    "securities",
+    "validation",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "author": "Qiniso"
+}

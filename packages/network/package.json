@@ -1,0 +1,38 @@
+{
+  "name": "@qiniso/network",
+  "version": "0.1.0",
+  "description": "Deterministic web/network validation — IANA TLD existence, domain, IPv4/IPv6, UUID, URL, email.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc && cp -r src/data dist/data",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": [
+    "tld",
+    "iana",
+    "domain",
+    "ipv4",
+    "ipv6",
+    "uuid",
+    "email",
+    "url",
+    "validation",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "author": "Qiniso"
+}

@@ -1,0 +1,46 @@
+{
+  "name": "qiniso",
+  "version": "0.1.0",
+  "description": "The deterministic fact-verification layer for AI agents — verify identifiers, locale and more against authoritative ground truth.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "qiniso-mcp": "dist/server.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:http": "node dist/http.js",
+    "test": "tsx test/smoke.test.ts"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "agents",
+    "verification",
+    "validation",
+    "deterministic"
+  ],
+  "license": "Apache-2.0",
+  "author": "Qiniso",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.0",
+    "@qiniso/finance": "*",
+    "@qiniso/identifiers": "*",
+    "@qiniso/network": "*",
+    "zod": "^3.23.0"
+  }
+}

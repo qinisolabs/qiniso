@@ -1,0 +1,36 @@
+{
+  "name": "@qiniso/identifiers",
+  "version": "0.1.0",
+  "description": "Deterministic validation of structured identifiers — IBAN, payment card (Luhn+BIN), ISBN-13, VIN.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc && cp -r src/data dist/data",
+    "test": "tsx test/parity.test.ts"
+  },
+  "keywords": [
+    "iban",
+    "luhn",
+    "credit-card",
+    "isbn",
+    "vin",
+    "checksum",
+    "validation",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "author": "Qiniso"
+}

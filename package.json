@@ -1,0 +1,23 @@
+{
+  "name": "qiniso-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Qiniso — the deterministic fact-verification layer for AI agents (monorepo).",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.6.0"
+  }
+}
