@@ -48,11 +48,11 @@ https://qiniso.qinisolabs.workers.dev/mcp
 
 Or run it locally over stdio: `npx -p @qinisolabs/qiniso qiniso-mcp`.
 
-## What it verifies — 33 tools across 8 domains
+## What it verifies — 34 tools across 8 domains
 
 | Domain | Checks |
 | --- | --- |
-| **Identifiers** | IBAN, payment card (Luhn + brand), ISBN-13, VIN |
+| **Identifiers** | IBAN, payment card (Luhn + brand), ISBN-13, VIN, GTIN/UPC/EAN barcodes (+ GS1 country) |
 | **Web / network** | TLD & domain (IANA root zone), IP, UUID, URL, email |
 | **Finance** | ISIN, CUSIP, SEDOL, LEI, US ABA routing |
 | **Crypto** | Ethereum (EIP-55), Bitcoin (Base58Check / Bech32) addresses |

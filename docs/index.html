@@ -63,7 +63,7 @@
     <p>Security and structure guardrails check whether an answer is <em>safe</em> or <em>well-formed</em>. Hallucination guardrails ask another LLM whether it's <em>faithful to the prompt</em>. None of them check whether a structured fact is <em>actually correct against the real world</em> — because that needs deterministic computation or curated data, not another model's opinion. That's Qiniso.</p>
     <div class="stat">
       <div><b>~91%</b><span>of arbitrary IBAN/VIN-style identifiers a frontier LLM validates <strong>wrong</strong>, cold and silently. Qiniso: 0%.</span></div>
-      <div><b>33</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
+      <div><b>34</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
       <div><b>0</b><span>API keys, secrets or user data required — stateless, nothing to authorize.</span></div>
     </div>
     <p class="note">It verifies facts you give it; it is not a live-data provider and never asks for your credentials.</p>
@@ -72,7 +72,7 @@
   <section>
     <h2>What it verifies</h2>
     <div class="grid">
-      <div class="mod"><h3>Identifiers</h3><p>IBAN, payment card (Luhn + brand), ISBN-13, VIN.</p></div>
+      <div class="mod"><h3>Identifiers</h3><p>IBAN, payment card (Luhn + brand), ISBN-13, VIN, GTIN/UPC/EAN barcodes (+ GS1 country).</p></div>
       <div class="mod"><h3>Web / network</h3><p>TLD &amp; domain (IANA root zone), IP, UUID, URL, email.</p></div>
       <div class="mod"><h3>Finance</h3><p>ISIN, CUSIP, SEDOL, LEI, US ABA routing.</p></div>
       <div class="mod"><h3>Crypto</h3><p>Ethereum (EIP-55) &amp; Bitcoin (Base58Check / Bech32) addresses.</p></div>

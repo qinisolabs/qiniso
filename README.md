@@ -45,11 +45,11 @@ validateIban("GB82 WEST 1234 5698 7654 32");
 // { valid: true, country: "United Kingdom", ... }
 ```
 
-## What it verifies — 33 tools across 8 domains
+## What it verifies — 34 tools across 8 domains
 
 | Domain | Tools |
 | --- | --- |
-| **Identifiers** | IBAN, payment card (Luhn + brand), ISBN-13, VIN |
+| **Identifiers** | IBAN, payment card (Luhn + brand), ISBN-13, VIN, GTIN/UPC/EAN barcodes (+ GS1 country) |
 | **Web / network** | TLD & domain (IANA root zone), IP, UUID, URL, email |
 | **Finance** | ISIN, CUSIP, SEDOL, LEI, US ABA routing |
 | **Crypto** | Ethereum (EIP-55), Bitcoin (Base58Check / Bech32) addresses |

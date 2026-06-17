@@ -10,6 +10,9 @@ import {
   isbn13CheckDigit,
   validateVin,
   vinCheckDigit,
+  validateGtin,
+  gtinCheckDigit,
+  gs1Country,
 } from "../src/index.js";
 
 let pass = 0;
@@ -129,6 +132,42 @@ check("vinCheckDigit", () => assert.equal(vinCheckDigit("1HGCM82633A004352"), "3
 check("vinCheckDigit throws on bad input", () =>
   assert.throws(() => vinCheckDigit("IIIIIIIIIIIIIIIII"))
 );
+
+/* ---------- GTIN / barcode ---------- */
+check("EAN-13 valid (Germany prefix 400)", () => {
+  const r = validateGtin("4006381333931");
+  assert.equal(r.valid, true);
+  assert.equal(r.type, "GTIN-13");
+  assert.equal(r.gs1Country, "Germany");
+});
+check("EAN-13 valid (UK Coca-Cola, prefix 500)", () => {
+  const r = validateGtin("5000112637922");
+  assert.equal(r.valid, true);
+  assert.equal(r.gs1Country, "United Kingdom");
+});
+check("UPC-A valid → United States & Canada", () => {
+  const r = validateGtin("036000291452");
+  assert.equal(r.valid, true);
+  assert.equal(r.type, "GTIN-12");
+  assert.equal(r.gs1Country, "United States & Canada");
+});
+check("EAN-13 ignores spaces/hyphens", () =>
+  assert.equal(validateGtin("4006381 333931").valid, true));
+check("EAN-13 wrong check digit → invalid with expected", () => {
+  const r = validateGtin("4006381333932");
+  assert.equal(r.valid, false);
+  assert.equal(r.checkDigit, "1");
+});
+check("wrong length → not a GTIN", () => {
+  const r = validateGtin("12345");
+  assert.equal(r.valid, false);
+  assert.match(r.errors[0], /not a GTIN|expected 8/i);
+});
+check("non-digits rejected", () => assert.equal(validateGtin("40063813339AB").valid, false));
+check("China prefix 690-699 resolves", () => assert.equal(gs1Country("690"), "China"));
+check("Bookland 978 resolves", () => assert.equal(gs1Country("978"), "Bookland (ISBN / ISMN)"));
+check("gtinCheckDigit matches a known value", () => assert.equal(gtinCheckDigit("400638133393"), "1"));
+check("gtinCheckDigit throws on bad input", () => assert.throws(() => gtinCheckDigit("12a4")));
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);

@@ -7,6 +7,7 @@ import {
   validateCard,
   validateIsbn13,
   validateVin,
+  validateGtin,
 } from "@qiniso/identifiers";
 import {
   validateTld,
@@ -96,6 +97,14 @@ export const TOOLS: ToolSpec[] = [
     argName: "vin",
     argDescription: "The 17-character VIN to validate.",
     run: (v) => validateVin(v),
+  },
+  {
+    name: "validate_gtin",
+    description:
+      "USE THIS to verify a product barcode — GTIN/EAN/UPC — before trusting it, instead of guessing the check digit. Handles EAN-8, UPC-A (12), EAN-13 and GTIN-14, verifies the GS1 mod-10 check digit, and returns the barcode type plus the GS1 prefix's issuing country (e.g. 50 = UK, 690-699 = China, 978 = Bookland/ISBN). Validates structure only — it does NOT confirm the barcode maps to a real, registered product.",
+    argName: "gtin",
+    argDescription: "The barcode digits (EAN-8/UPC-A/EAN-13/GTIN-14); spaces and hyphens are ignored.",
+    run: (v) => validateGtin(v),
   },
   {
     name: "validate_tld",
@@ -348,7 +357,7 @@ export const TOOLS: ToolSpec[] = [
   },
 ];
 
-export const SERVER_INFO = { name: "qiniso", version: "0.1.0" } as const;
+export const SERVER_INFO = { name: "qiniso", version: "0.2.0" } as const;
 const DEFAULT_PROTOCOL = "2025-06-18";
 
 function argList(t: ToolSpec): ToolArg[] {

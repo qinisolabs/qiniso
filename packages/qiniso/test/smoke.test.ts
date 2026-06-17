@@ -25,14 +25,14 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 33 tools with schemas", () => {
+check("tools/list returns all 34 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
     "format_currency", "is_holiday", "next_holiday", "parse_address", "parse_date",
     "tax_rate", "validate_aadhaar", "validate_btc_address", "validate_card",
     "validate_cnpj", "validate_cpf", "validate_cusip", "validate_dni", "validate_domain",
-    "validate_email", "validate_eth_address", "validate_iban", "validate_ip",
+    "validate_email", "validate_eth_address", "validate_gtin", "validate_iban", "validate_ip",
     "validate_isbn", "validate_isbn10", "validate_isin", "validate_issn",
     "validate_lei", "validate_orcid", "validate_phone", "validate_routing",
     "validate_sa_id", "validate_sedol", "validate_tld", "validate_url",
@@ -49,6 +49,13 @@ check("tools/call validate_iban — valid", () => {
   const payload = JSON.parse(r.result.content[0].text);
   assert.equal(payload.valid, true);
   assert.equal(payload.countryCode, "GB");
+});
+
+check("tools/call validate_gtin — valid EAN-13 with GS1 country", () => {
+  const r = rpc("tools/call", { name: "validate_gtin", arguments: { gtin: "4006381333931" } });
+  const payload = JSON.parse(r.result.content[0].text);
+  assert.equal(payload.valid, true);
+  assert.equal(payload.gs1Country, "Germany");
 });
 
 check("tools/call validate_iban — tampered fails checksum", () => {
