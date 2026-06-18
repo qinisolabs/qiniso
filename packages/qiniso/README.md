@@ -8,7 +8,7 @@
 
 *Verified, trustworthy data tools for AI agents. "Qiniso" means "truth" in Zulu.*
 
-[Website](https://qinisolabs.github.io/qiniso/) · [GitHub](https://github.com/qinisolabs/qiniso) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=qiniso)
+[Website](https://qinisolabs.github.io/qiniso/) · [npm](https://www.npmjs.com/package/@qinisolabs/qiniso) · [GitHub](https://github.com/qinisolabs/qiniso) · [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=qiniso)
 
 </div>
 
