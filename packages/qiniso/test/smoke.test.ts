@@ -25,18 +25,21 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 37 tools with schemas", () => {
+check("tools/list returns all 47 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
-    "format_currency", "is_holiday", "next_holiday", "parse_address", "parse_date",
-    "tax_rate", "validate_aadhaar", "validate_btc_address", "validate_card",
-    "validate_cnpj", "validate_cpf", "validate_cusip", "validate_dni", "validate_domain",
-    "validate_email", "validate_eth_address", "validate_gln", "validate_gtin",
-    "validate_iban", "validate_imei", "validate_ip",
-    "validate_isbn", "validate_isbn10", "validate_isin", "validate_issn",
-    "validate_lei", "validate_orcid", "validate_phone", "validate_routing",
-    "validate_sa_id", "validate_sedol", "validate_sscc", "validate_tld", "validate_url",
+    "format_currency", "is_holiday", "next_holiday", "parse_address",
+    "parse_date", "tax_rate", "validate_aadhaar", "validate_be_nrn",
+    "validate_bsn", "validate_btc_address", "validate_card", "validate_china_ric",
+    "validate_cnpj", "validate_codice_fiscale", "validate_cpf", "validate_cusip",
+    "validate_dni", "validate_domain", "validate_email", "validate_eth_address",
+    "validate_fodselsnummer", "validate_gln", "validate_gtin", "validate_hetu",
+    "validate_iban", "validate_imei", "validate_ip", "validate_isbn",
+    "validate_isbn10", "validate_isin", "validate_issn", "validate_lei",
+    "validate_nif_pt", "validate_orcid", "validate_personnummer", "validate_pesel",
+    "validate_phone", "validate_routing", "validate_sa_id", "validate_sedol",
+    "validate_sscc", "validate_tckn", "validate_tld", "validate_url",
     "validate_uuid", "validate_vat", "validate_vin",
   ]);
   for (const t of r.result.tools) {
@@ -132,6 +135,28 @@ check("tools/call validate_orcid — canonical valid", () => {
   const r = rpc("tools/call", { name: "validate_orcid", arguments: { orcid: "0000-0002-1825-0097" } });
   assert.equal(JSON.parse(r.result.content[0].text).valid, true);
 });
+
+// --- national-ID checksum validators (valid example vs tampered) ---
+const NATID_CASES: Array<[string, string, string, string]> = [
+  ["validate_codice_fiscale", "code", "RSSMRA85T10A562S", "RSSMRA85T10A562T"],
+  ["validate_pesel", "pesel", "44051401458", "44051401459"],
+  ["validate_bsn", "bsn", "111222333", "111222334"],
+  ["validate_be_nrn", "nrn", "93051822361", "93051822362"],
+  ["validate_personnummer", "personnummer", "8112189876", "8112189875"],
+  ["validate_fodselsnummer", "fodselsnummer", "01010100050", "01010100051"],
+  ["validate_hetu", "hetu", "131052-308T", "131052-308U"],
+  ["validate_nif_pt", "nif", "123456789", "123456788"],
+  ["validate_tckn", "tckn", "10000000146", "10000000145"],
+  ["validate_china_ric", "id", "11010519491231002X", "11010519491231002Y"],
+];
+for (const [tool, arg, good, bad] of NATID_CASES) {
+  check(`tools/call ${tool} — valid vs tampered`, () => {
+    const ok = rpc("tools/call", { name: tool, arguments: { [arg]: good } });
+    const no = rpc("tools/call", { name: tool, arguments: { [arg]: bad } });
+    assert.equal(JSON.parse(ok.result.content[0].text).valid, true);
+    assert.equal(JSON.parse(no.result.content[0].text).valid, false);
+  });
+}
 
 // --- multi-arg tools (the new ToolSpec path) ---
 check("multi-arg validate_phone — ZA region", () => {

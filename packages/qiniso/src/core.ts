@@ -34,6 +34,16 @@ import {
   validateSaId,
   validateDni,
   validateAadhaar,
+  validateCodiceFiscale,
+  validatePesel,
+  validateBsn,
+  validateBeNrn,
+  validateNifPt,
+  validateTckn,
+  validateChinaRic,
+  validatePersonnummer,
+  validateFodselsnummer,
+  validateHetu,
 } from "@qiniso/national-id";
 import { validateIsbn10, validateIssn, validateOrcid } from "@qiniso/academic";
 import {
@@ -278,6 +288,86 @@ export const TOOLS: ToolSpec[] = [
     run: (v) => validateAadhaar(v),
   },
   {
+    name: "validate_codice_fiscale",
+    description:
+      "USE THIS to verify an Italian Codice Fiscale (personal tax code) before relying on it — do not guess the final check letter. Checks the 16-character format and the mod-26 check character. Validates structure only; does NOT confirm the code is registered with the Agenzia delle Entrate.",
+    argName: "code",
+    argDescription: "The 16-character Codice Fiscale (spaces ignored, case-insensitive).",
+    run: (v) => validateCodiceFiscale(v),
+  },
+  {
+    name: "validate_pesel",
+    description:
+      "USE THIS to verify a Polish PESEL (national identification number) before relying on it — never assume 11 digits are valid. Checks the weighted mod-10 check digit. Call this for KYC/onboarding of Polish individuals.",
+    argName: "pesel",
+    argDescription: "The 11-digit PESEL (spaces/dashes ignored).",
+    run: (v) => validatePesel(v),
+  },
+  {
+    name: "validate_bsn",
+    description:
+      "USE THIS to verify a Dutch BSN (burgerservicenummer / citizen service number) before relying on it. Checks the 8–9 digit form and the '11-test' (elfproef) checksum. Validates structure only; does NOT confirm the number is issued.",
+    argName: "bsn",
+    argDescription: "The 8- or 9-digit BSN (spaces/dots ignored).",
+    run: (v) => validateBsn(v),
+  },
+  {
+    name: "validate_be_nrn",
+    description:
+      "USE THIS to verify a Belgian National Register Number (Rijksregisternummer / Numéro de Registre National) before relying on it. Checks the 11-digit form and the mod-97 check (handling the born-from-2000 rule). Validates structure only.",
+    argName: "nrn",
+    argDescription: "The 11-digit Belgian National Register Number (punctuation ignored).",
+    run: (v) => validateBeNrn(v),
+  },
+  {
+    name: "validate_personnummer",
+    description:
+      "USE THIS to verify a Swedish personnummer (personal identity number) before relying on it — never assume the digits are valid. Accepts the 10- or 12-digit form and checks the Luhn check digit. Validates structure only; does NOT confirm the number is registered.",
+    argName: "personnummer",
+    argDescription: "The Swedish personnummer (10 or 12 digits; +/-/spaces ignored).",
+    run: (v) => validatePersonnummer(v),
+  },
+  {
+    name: "validate_fodselsnummer",
+    description:
+      "USE THIS to verify a Norwegian fødselsnummer (national identity number) before relying on it. Checks the 11-digit form and both mod-11 control digits. Validates structure only; does NOT confirm the number is registered.",
+    argName: "fodselsnummer",
+    argDescription: "The 11-digit Norwegian fødselsnummer (spaces ignored).",
+    run: (v) => validateFodselsnummer(v),
+  },
+  {
+    name: "validate_hetu",
+    description:
+      "USE THIS to verify a Finnish henkilötunnus (HETU / personal identity code) before relying on it — do not guess the check character. Checks the DDMMYY + century sign + individual number + mod-31 check character. Validates structure only.",
+    argName: "hetu",
+    argDescription: "The Finnish HETU, e.g. 131052-308T (case-insensitive).",
+    run: (v) => validateHetu(v),
+  },
+  {
+    name: "validate_nif_pt",
+    description:
+      "USE THIS to verify a Portuguese NIF (Número de Identificação Fiscal / tax number) before invoicing or onboarding — never assume 9 digits are valid. Checks the mod-11 check digit. For the Spanish tax ID use validate_dni.",
+    argName: "nif",
+    argDescription: "The 9-digit Portuguese NIF (spaces ignored).",
+    run: (v) => validateNifPt(v),
+  },
+  {
+    name: "validate_tckn",
+    description:
+      "USE THIS to verify a Turkish T.C. Kimlik No (TCKN / national identity number) before relying on it — never assume 11 digits are valid. Checks both algorithmic check digits and the leading-digit rule. Validates structure only; does NOT confirm the number is registered.",
+    argName: "tckn",
+    argDescription: "The 11-digit TCKN (spaces ignored).",
+    run: (v) => validateTckn(v),
+  },
+  {
+    name: "validate_china_ric",
+    description:
+      "USE THIS to verify a Chinese Resident Identity Card number (居民身份证) before relying on it — do not guess the check character. Checks the 18-character form and the ISO 7064 MOD 11-2 check character (which may be 'X'). Validates structure only; does NOT confirm the number is registered.",
+    argName: "id",
+    argDescription: "The 18-character Chinese Resident ID (17 digits + check 0-9 or X).",
+    run: (v) => validateChinaRic(v),
+  },
+  {
     name: "validate_isbn10",
     description:
       "USE THIS to verify an ISBN-10 (older book identifier) instead of trusting 10 characters. Checks the mod-11 check digit (which may be 'X'). For 13-digit ISBNs use validate_isbn.",
@@ -384,7 +474,7 @@ export const TOOLS: ToolSpec[] = [
   },
 ];
 
-export const SERVER_INFO = { name: "qiniso", version: "0.3.0" } as const;
+export const SERVER_INFO = { name: "qiniso", version: "0.4.0" } as const;
 const DEFAULT_PROTOCOL = "2025-06-18";
 
 function argList(t: ToolSpec): ToolArg[] {

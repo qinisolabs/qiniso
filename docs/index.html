@@ -63,7 +63,7 @@
     <p>Security and structure guardrails check whether an answer is <em>safe</em> or <em>well-formed</em>. Hallucination guardrails ask another LLM whether it's <em>faithful to the prompt</em>. None of them check whether a structured fact is <em>actually correct against the real world</em> — because that needs deterministic computation or curated data, not another model's opinion. That's Qiniso.</p>
     <div class="stat">
       <div><b>~91%</b><span>of arbitrary IBAN/VIN-style identifiers a frontier LLM validates <strong>wrong</strong>, cold and silently. Qiniso: 0%.</span></div>
-      <div><b>37</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
+      <div><b>47</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
       <div><b>0</b><span>API keys, secrets or user data required — stateless, nothing to authorize.</span></div>
     </div>
     <p class="note">It verifies facts you give it; it is not a live-data provider and never asks for your credentials.</p>
@@ -76,7 +76,7 @@
       <div class="mod"><h3>Web / network</h3><p>TLD &amp; domain (IANA root zone), IP, UUID, URL, email.</p></div>
       <div class="mod"><h3>Finance</h3><p>ISIN, CUSIP, SEDOL, LEI, US ABA routing.</p></div>
       <div class="mod"><h3>Crypto</h3><p>Ethereum (EIP-55) &amp; Bitcoin (Base58Check / Bech32) addresses.</p></div>
-      <div class="mod"><h3>National &amp; tax IDs</h3><p>Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar, EU/UK VAT.</p></div>
+      <div class="mod"><h3>National &amp; tax IDs</h3><p>Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar, Italy, Poland, Netherlands, Belgium, Nordics, Portugal, Turkey, China, EU/UK VAT.</p></div>
       <div class="mod"><h3>Academic</h3><p>ISBN-10, ISSN, ORCID.</p></div>
       <div class="mod"><h3>Locale</h3><p>Phone (global), date parsing, currency, holidays (~200 countries), UK VAT-by-date.</p></div>
       <div class="mod"><h3>Addresses</h3><p>UK/US address parsing into structured fields.</p></div>

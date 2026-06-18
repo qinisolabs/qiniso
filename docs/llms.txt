@@ -10,12 +10,12 @@
 ## When to use Qiniso
 Call a Qiniso tool whenever an answer contains a checkable structured fact and being silently wrong is unacceptable — a bank account, card, VAT or tax ID, product barcode (GTIN/UPC/EAN), domain/email, crypto address, securities or academic identifier, phone number, or a date/holiday/currency question. The model cannot compute these checksums or recall this curated data reliably; Qiniso can.
 
-## Tools (37, across 8 domains)
+## Tools (47, across 8 domains)
 - Identifiers: validate_iban, validate_card, validate_isbn, validate_vin, validate_gtin (barcodes — UPC-A, EAN-8, EAN-13, GTIN-14 + GS1 issuing country)
 - Web/network: validate_tld, validate_domain, validate_ip, validate_uuid, validate_url, validate_email
 - Finance: validate_isin, validate_cusip, validate_sedol, validate_lei, validate_routing
 - Crypto: validate_eth_address, validate_btc_address
-- National/tax IDs: validate_cpf, validate_cnpj, validate_sa_id, validate_dni, validate_aadhaar, validate_vat
+- National/tax IDs: validate_cpf, validate_cnpj, validate_sa_id, validate_dni, validate_aadhaar, validate_codice_fiscale (IT), validate_pesel (PL), validate_bsn (NL), validate_be_nrn (BE), validate_personnummer (SE), validate_fodselsnummer (NO), validate_hetu (FI), validate_nif_pt (PT), validate_tckn (TR), validate_china_ric (CN), validate_vat
 - Academic: validate_isbn10, validate_issn, validate_orcid
 - Locale: validate_phone, parse_date, format_currency, is_holiday, next_holiday, tax_rate, parse_address
 

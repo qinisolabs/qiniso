@@ -8,6 +8,16 @@ import {
   validateDni,
   validateAadhaar,
   verhoeffGenerate,
+  validateCodiceFiscale,
+  validatePesel,
+  validateBsn,
+  validateBeNrn,
+  validatePersonnummer,
+  validateFodselsnummer,
+  validateHetu,
+  validateNifPt,
+  validateTckn,
+  validateChinaRic,
 } from "../src/index.js";
 
 let pass = 0;
@@ -67,6 +77,29 @@ check("Aadhaar tampered invalid", () => {
   assert.equal(validateAadhaar(tampered).valid, false);
 });
 check("Aadhaar starting 0/1 rejected", () => assert.equal(validateAadhaar("012345678901").valid, false));
+
+/* ---------- New checksum validators: published valid example vs tampered ---------- */
+const VECTORS: Array<[string, (s: string) => { valid: boolean }, string, string]> = [
+  ["IT Codice Fiscale", validateCodiceFiscale, "RSSMRA85T10A562S", "RSSMRA85T10A562T"],
+  ["PL PESEL", validatePesel, "44051401458", "44051401459"],
+  ["NL BSN", validateBsn, "111222333", "111222334"],
+  ["BE NRN", validateBeNrn, "93051822361", "93051822362"],
+  ["SE personnummer", validatePersonnummer, "8112189876", "8112189875"],
+  ["NO fodselsnummer", validateFodselsnummer, "01010100050", "01010100051"],
+  ["FI HETU", validateHetu, "131052-308T", "131052-308U"],
+  ["PT NIF", validateNifPt, "123456789", "123456788"],
+  ["TR TCKN", validateTckn, "10000000146", "10000000145"],
+  ["CN Resident ID", validateChinaRic, "11010519491231002X", "11010519491231002Y"],
+];
+for (const [name, fn, good, bad] of VECTORS) {
+  check(`${name} valid (${good})`, () => assert.equal(fn(good).valid, true));
+  check(`${name} tampered rejected`, () => assert.equal(fn(bad).valid, false));
+}
+// Format guards
+check("PESEL wrong length rejected", () => assert.equal(validatePesel("123").valid, false));
+check("BSN 8-digit form accepted (010000008 -> 10000008)", () => assert.equal(validateBsn("10000008").valid, true));
+check("TCKN cannot start with 0", () => assert.equal(validateTckn("01000000146").valid, false));
+check("China RIC lowercase x normalised", () => assert.equal(validateChinaRic("11010519491231002x").valid, true));
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);
