@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "Qiniso — the deterministic fact-verification layer for AI agents (monorepo).",
+  "license": "Apache-2.0",
   "type": "module",
   "workspaces": [
     "packages/*"
