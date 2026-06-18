@@ -45,7 +45,7 @@ validateIban("GB82 WEST 1234 5698 7654 32");
 // { valid: true, country: "United Kingdom", ... }
 ```
 
-## What it verifies — 34 tools across 8 domains
+## What it verifies — 37 tools across 8 domains
 
 | Domain | Tools |
 | --- | --- |

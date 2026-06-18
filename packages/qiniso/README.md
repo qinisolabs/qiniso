@@ -48,7 +48,7 @@ https://qiniso.qinisolabs.workers.dev/mcp
 
 Or run it locally over stdio: `npx -p @qinisolabs/qiniso qiniso-mcp`.
 
-## What it verifies — 34 tools across 8 domains
+## What it verifies — 37 tools across 8 domains
 
 | Domain | Checks |
 | --- | --- |

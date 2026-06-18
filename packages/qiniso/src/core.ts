@@ -8,6 +8,9 @@ import {
   validateIsbn13,
   validateVin,
   validateGtin,
+  validateImei,
+  validateGln,
+  validateSscc,
 } from "@qiniso/identifiers";
 import {
   validateTld,
@@ -105,6 +108,30 @@ export const TOOLS: ToolSpec[] = [
     argName: "gtin",
     argDescription: "The barcode digits (EAN-8/UPC-A/EAN-13/GTIN-14); spaces and hyphens are ignored.",
     run: (v) => validateGtin(v),
+  },
+  {
+    name: "validate_imei",
+    description:
+      "USE THIS to verify a phone/device IMEI before relying on it — never assume a 15-digit string is valid or guess its check digit. Checks the Luhn check digit (and recognises the 16-digit IMEISV form), and returns the TAC (device-model code). Validates the number only — does NOT check whether the device is real, active, or blocklisted/stolen.",
+    argName: "imei",
+    argDescription: "The 15-digit IMEI (or 16-digit IMEISV); spaces and dashes are ignored.",
+    run: (v) => validateImei(v),
+  },
+  {
+    name: "validate_gln",
+    description:
+      "USE THIS to verify a GLN (GS1 Global Location Number — identifies a company/site/location in supply chains and EDI) before relying on it. Checks the 13-digit GS1 mod-10 check digit and returns the GS1 prefix's issuing country. Validates structure only; does not confirm the location is registered.",
+    argName: "gln",
+    argDescription: "The 13-digit GLN; spaces and dashes are ignored.",
+    run: (v) => validateGln(v),
+  },
+  {
+    name: "validate_sscc",
+    description:
+      "USE THIS to verify an SSCC (GS1 Serial Shipping Container Code — identifies a pallet/carton/logistics unit) from a shipping label before relying on it. Checks the 18-digit GS1 mod-10 check digit and returns the extension digit and GS1 prefix country. Validates structure only.",
+    argName: "sscc",
+    argDescription: "The 18-digit SSCC; spaces and dashes are ignored.",
+    run: (v) => validateSscc(v),
   },
   {
     name: "validate_tld",
@@ -357,7 +384,7 @@ export const TOOLS: ToolSpec[] = [
   },
 ];
 
-export const SERVER_INFO = { name: "qiniso", version: "0.2.0" } as const;
+export const SERVER_INFO = { name: "qiniso", version: "0.3.0" } as const;
 const DEFAULT_PROTOCOL = "2025-06-18";
 
 function argList(t: ToolSpec): ToolArg[] {

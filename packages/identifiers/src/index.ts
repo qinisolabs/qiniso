@@ -26,4 +26,7 @@ export {
   type GtinResult,
   type GtinType,
 } from "./gtin.js";
-// (re-exported for tests/consumers)
+
+export { validateImei, type ImeiResult, type ImeiType } from "./imei.js";
+export { validateGln, type GlnResult } from "./gln.js";
+export { validateSscc, type SsccResult } from "./sscc.js";

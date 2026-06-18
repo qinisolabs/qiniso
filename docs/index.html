@@ -63,7 +63,7 @@
     <p>Security and structure guardrails check whether an answer is <em>safe</em> or <em>well-formed</em>. Hallucination guardrails ask another LLM whether it's <em>faithful to the prompt</em>. None of them check whether a structured fact is <em>actually correct against the real world</em> — because that needs deterministic computation or curated data, not another model's opinion. That's Qiniso.</p>
     <div class="stat">
       <div><b>~91%</b><span>of arbitrary IBAN/VIN-style identifiers a frontier LLM validates <strong>wrong</strong>, cold and silently. Qiniso: 0%.</span></div>
-      <div><b>34</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
+      <div><b>37</b><span>deterministic checks across 8 domains, one endpoint.</span></div>
       <div><b>0</b><span>API keys, secrets or user data required — stateless, nothing to authorize.</span></div>
     </div>
     <p class="note">It verifies facts you give it; it is not a live-data provider and never asks for your credentials.</p>
