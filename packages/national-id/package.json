@@ -1,7 +1,7 @@
 {
   "name": "@qiniso/national-id",
-  "version": "0.2.0",
-  "description": "Deterministic national / tax ID validation — Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar, Italy, Poland, Netherlands, Belgium, Nordics, Portugal, Turkey, China.",
+  "version": "0.3.0",
+  "description": "Deterministic national / tax ID validation — 24 countries incl. Brazil, Spain, India, Italy, Poland, Netherlands, Belgium, Nordics, Portugal, Turkey, China, Germany, France, Switzerland, Mexico, Croatia, Romania, Bulgaria, Estonia, Czechia.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

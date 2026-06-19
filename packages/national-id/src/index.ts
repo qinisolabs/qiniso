@@ -18,3 +18,12 @@ export {
   validateHetu,
   type HetuResult,
 } from "./nordics.js";
+export { validateDeSteuerId, type DeSteuerIdResult } from "./germany.js";
+export { validateFrNir, type FrNirResult } from "./france.js";
+export { validateChAhv, type ChAhvResult } from "./switzerland.js";
+export { validateMxCurp, type MxCurpResult } from "./mexico.js";
+export { validateHrOib, type HrOibResult } from "./croatia.js";
+export { validateRoCnp, type RoCnpResult } from "./romania.js";
+export { validateBgEgn, type BgEgnResult } from "./bulgaria.js";
+export { validateEeIsikukood, type EeIsikukoodResult } from "./estonia.js";
+export { validateCzRodneCislo, type CzRodneCisloResult } from "./czech.js";

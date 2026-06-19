@@ -44,6 +44,15 @@ import {
   validatePersonnummer,
   validateFodselsnummer,
   validateHetu,
+  validateDeSteuerId,
+  validateFrNir,
+  validateChAhv,
+  validateMxCurp,
+  validateHrOib,
+  validateRoCnp,
+  validateBgEgn,
+  validateEeIsikukood,
+  validateCzRodneCislo,
 } from "@qiniso/national-id";
 import { validateIsbn10, validateIssn, validateOrcid } from "@qiniso/academic";
 import {
@@ -368,6 +377,78 @@ export const TOOLS: ToolSpec[] = [
     run: (v) => validateChinaRic(v),
   },
   {
+    name: "validate_de_steuer_id",
+    description:
+      "USE THIS to verify a German tax ID (Steuer-Identifikationsnummer / IdNr) before relying on it — never assume 11 digits are valid. Checks the ISO 7064 product-method check digit. Validates structure only; does NOT confirm it is registered.",
+    argName: "id",
+    argDescription: "The 11-digit German Steuer-IdNr (spaces/slashes ignored).",
+    run: (v) => validateDeSteuerId(v),
+  },
+  {
+    name: "validate_fr_nir",
+    description:
+      "USE THIS to verify a French social-security number (NIR / numéro de sécurité sociale, INSEE) before relying on it — do not guess the key. Checks the 13-digit body (Corsica 2A/2B handled) and the mod-97 two-digit key. Validates structure only.",
+    argName: "nir",
+    argDescription: "The French NIR: 13 digits + 2-digit key (spaces ignored).",
+    run: (v) => validateFrNir(v),
+  },
+  {
+    name: "validate_ch_ahv",
+    description:
+      "USE THIS to verify a Swiss social-insurance number (AHV/AVS, 756.…) before relying on it. Checks the 13-digit form starting 756 and the EAN-13 check digit. Validates structure only.",
+    argName: "ahv",
+    argDescription: "The 13-digit Swiss AHV/AVS number (dots ignored).",
+    run: (v) => validateChAhv(v),
+  },
+  {
+    name: "validate_mx_curp",
+    description:
+      "USE THIS to verify a Mexican CURP (Clave Única de Registro de Población) before relying on it — do not guess the check digit. Checks the 18-character format and the base-37 check digit. Validates structure only.",
+    argName: "curp",
+    argDescription: "The 18-character CURP (case-insensitive).",
+    run: (v) => validateMxCurp(v),
+  },
+  {
+    name: "validate_hr_oib",
+    description:
+      "USE THIS to verify a Croatian OIB (Osobni identifikacijski broj / personal identification number) before relying on it. Checks the 11-digit form and the ISO 7064 MOD 11,10 check digit. Validates structure only.",
+    argName: "oib",
+    argDescription: "The 11-digit Croatian OIB (spaces ignored).",
+    run: (v) => validateHrOib(v),
+  },
+  {
+    name: "validate_ro_cnp",
+    description:
+      "USE THIS to verify a Romanian CNP (Cod Numeric Personal) before relying on it — never assume 13 digits are valid. Checks the weighted mod-11 check digit. Validates structure only.",
+    argName: "cnp",
+    argDescription: "The 13-digit Romanian CNP (spaces ignored).",
+    run: (v) => validateRoCnp(v),
+  },
+  {
+    name: "validate_bg_egn",
+    description:
+      "USE THIS to verify a Bulgarian EGN (Единен граждански номер) before relying on it. Checks the 10-digit form and the weighted mod-11 check digit. Validates structure only.",
+    argName: "egn",
+    argDescription: "The 10-digit Bulgarian EGN (spaces ignored).",
+    run: (v) => validateBgEgn(v),
+  },
+  {
+    name: "validate_ee_isikukood",
+    description:
+      "USE THIS to verify an Estonian isikukood (personal identification code) before relying on it. Checks the 11-digit form and the two-stage mod-11 check digit. Validates structure only.",
+    argName: "isikukood",
+    argDescription: "The 11-digit Estonian isikukood (spaces ignored).",
+    run: (v) => validateEeIsikukood(v),
+  },
+  {
+    name: "validate_cz_rc",
+    description:
+      "USE THIS to verify a Czech or Slovak rodné číslo (birth number) before relying on it. Checks the modern 10-digit form's mod-11 rule (9-digit pre-1954 numbers have no check digit). Validates structure only.",
+    argName: "rc",
+    argDescription: "The 10-digit rodné číslo (slash/spaces ignored).",
+    run: (v) => validateCzRodneCislo(v),
+  },
+  {
     name: "validate_isbn10",
     description:
       "USE THIS to verify an ISBN-10 (older book identifier) instead of trusting 10 characters. Checks the mod-11 check digit (which may be 'X'). For 13-digit ISBNs use validate_isbn.",
@@ -474,7 +555,7 @@ export const TOOLS: ToolSpec[] = [
   },
 ];
 
-export const SERVER_INFO = { name: "qiniso", version: "0.4.0" } as const;
+export const SERVER_INFO = { name: "qiniso", version: "0.5.0" } as const;
 const DEFAULT_PROTOCOL = "2025-06-18";
 
 function argList(t: ToolSpec): ToolArg[] {

@@ -25,22 +25,24 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 47 tools with schemas", () => {
+check("tools/list returns all 56 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
     "format_currency", "is_holiday", "next_holiday", "parse_address",
     "parse_date", "tax_rate", "validate_aadhaar", "validate_be_nrn",
-    "validate_bsn", "validate_btc_address", "validate_card", "validate_china_ric",
-    "validate_cnpj", "validate_codice_fiscale", "validate_cpf", "validate_cusip",
-    "validate_dni", "validate_domain", "validate_email", "validate_eth_address",
-    "validate_fodselsnummer", "validate_gln", "validate_gtin", "validate_hetu",
-    "validate_iban", "validate_imei", "validate_ip", "validate_isbn",
-    "validate_isbn10", "validate_isin", "validate_issn", "validate_lei",
+    "validate_bg_egn", "validate_bsn", "validate_btc_address", "validate_card",
+    "validate_ch_ahv", "validate_china_ric", "validate_cnpj", "validate_codice_fiscale",
+    "validate_cpf", "validate_cusip", "validate_cz_rc", "validate_de_steuer_id",
+    "validate_dni", "validate_domain", "validate_ee_isikukood", "validate_email",
+    "validate_eth_address", "validate_fodselsnummer", "validate_fr_nir", "validate_gln",
+    "validate_gtin", "validate_hetu", "validate_hr_oib", "validate_iban",
+    "validate_imei", "validate_ip", "validate_isbn", "validate_isbn10",
+    "validate_isin", "validate_issn", "validate_lei", "validate_mx_curp",
     "validate_nif_pt", "validate_orcid", "validate_personnummer", "validate_pesel",
-    "validate_phone", "validate_routing", "validate_sa_id", "validate_sedol",
-    "validate_sscc", "validate_tckn", "validate_tld", "validate_url",
-    "validate_uuid", "validate_vat", "validate_vin",
+    "validate_phone", "validate_ro_cnp", "validate_routing", "validate_sa_id",
+    "validate_sedol", "validate_sscc", "validate_tckn", "validate_tld",
+    "validate_url", "validate_uuid", "validate_vat", "validate_vin",
   ]);
   for (const t of r.result.tools) {
     assert.equal(t.inputSchema.type, "object");
@@ -148,6 +150,15 @@ const NATID_CASES: Array<[string, string, string, string]> = [
   ["validate_nif_pt", "nif", "123456789", "123456788"],
   ["validate_tckn", "tckn", "10000000146", "10000000145"],
   ["validate_china_ric", "id", "11010519491231002X", "11010519491231002Y"],
+  ["validate_de_steuer_id", "id", "86095742719", "86095742718"],
+  ["validate_fr_nir", "nir", "184017512345658", "184017512345659"],
+  ["validate_ch_ahv", "ahv", "7569217076985", "7569217076984"],
+  ["validate_mx_curp", "curp", "HEGG560427MVZRRL04", "HEGG560427MVZRRL05"],
+  ["validate_hr_oib", "oib", "69435151530", "69435151531"],
+  ["validate_ro_cnp", "cnp", "1960121335860", "1960121335861"],
+  ["validate_bg_egn", "egn", "7523169263", "7523169264"],
+  ["validate_ee_isikukood", "isikukood", "37605030299", "37605030298"],
+  ["validate_cz_rc", "rc", "7401130968", "7401130969"],
 ];
 for (const [tool, arg, good, bad] of NATID_CASES) {
   check(`tools/call ${tool} — valid vs tampered`, () => {

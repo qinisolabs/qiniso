@@ -48,7 +48,7 @@ https://qiniso.qinisolabs.workers.dev/mcp
 
 Or run it locally over stdio: `npx -p @qinisolabs/qiniso qiniso-mcp`.
 
-## What it verifies — 47 tools across 8 domains
+## What it verifies — 56 tools across 8 domains
 
 | Domain | Checks |
 | --- | --- |
@@ -56,7 +56,7 @@ Or run it locally over stdio: `npx -p @qinisolabs/qiniso qiniso-mcp`.
 | **Web / network** | TLD & domain (IANA root zone), IP, UUID, URL, email |
 | **Finance** | ISIN, CUSIP, SEDOL, LEI, US ABA routing |
 | **Crypto** | Ethereum (EIP-55), Bitcoin (Base58Check / Bech32) addresses |
-| **National & tax IDs** | Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar, Italy Codice Fiscale, Poland PESEL, Netherlands BSN, Belgium NRN, Sweden personnummer, Norway fødselsnummer, Finland HETU, Portugal NIF, Turkey TCKN, China Resident ID, EU/UK VAT |
+| **National & tax IDs** | Brazil CPF/CNPJ, South Africa ID, Spain DNI/NIE, India Aadhaar, Italy, Poland, Netherlands, Belgium, Nordics, Portugal, Turkey, China, Germany Steuer-IdNr, France NIR, Switzerland AHV, Mexico CURP, Croatia OIB, Romania CNP, Bulgaria EGN, Estonia, Czech/Slovak rodné číslo, EU/UK VAT |
 | **Academic** | ISBN-10, ISSN, ORCID |
 | **Locale** | Phone (global), date parsing, currency, holidays (~200 countries), UK VAT-by-date |
 | **Addresses** | UK/US address parsing |
