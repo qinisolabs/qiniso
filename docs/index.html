@@ -6,6 +6,10 @@
 <title>Qiniso — deterministic fact verification for AI agents</title>
 <meta name="description" content="Qiniso is the deterministic fact-verification layer for AI agents: it checks the structured facts an agent emits — identifiers, locale, finance, crypto, IDs — against authoritative ground truth. Checksums and curated data, not guesses." />
 <link rel="icon" href="logo.svg" type="image/svg+xml" />
+<meta property="og:image" content="https://qinisolabs.github.io/qiniso/logo.svg" />
+<meta name="twitter:image" content="https://qinisolabs.github.io/qiniso/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta property="og:type" content="website" />
 <style>
   :root {
     --emerald: #10b981; --emerald-dark: #047857; --ink: #0b1220; --muted: #5b6472;
@@ -85,8 +89,16 @@
 
   <section id="add">
     <h2>Add it to Claude</h2>
-    <p>Settings → Connectors → <strong>Add custom connector</strong>, and paste the URL. No login, no key:</p>
+    <p>Settings → Connectors → <strong>Add custom connector</strong>, and paste the URL. Hosted on the edge, no login, no key:</p>
     <pre>https://qiniso.qinisolabs.workers.dev/mcp</pre>
+    <h2 style="margin-top:30px">Or run it locally</h2>
+    <p>Prefer no dependency on the hosted endpoint? Run it yourself over stdio — add this to your MCP client config (e.g. Claude Desktop → Settings → Developer → Edit Config), then restart:</p>
+    <pre>{
+  "mcpServers": {
+    "qiniso": { "command": "npx", "args": ["-y", "@qinisolabs/qiniso"] }
+  }
+}</pre>
+    <p class="note">Using <code>asdf</code> or <code>nvm</code>? The desktop app may not see <code>npx</code> on its PATH — replace <code>"npx"</code> with the full path from <code>which npx</code>.</p>
     <h2 style="margin-top:30px">Or import it as a library</h2>
     <p>Every check is also a typed function — no MCP required:</p>
     <pre>npm i @qinisolabs/qiniso
