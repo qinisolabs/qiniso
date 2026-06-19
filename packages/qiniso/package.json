@@ -32,6 +32,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "build-mcpb": "npm run build && node scripts/build-mcpb.mjs",
     "start": "node dist/server.js",
     "start:http": "node dist/http.js",
     "test": "tsx test/smoke.test.ts"

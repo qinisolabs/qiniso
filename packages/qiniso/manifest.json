@@ -1,0 +1,36 @@
+{
+  "manifest_version": "0.3",
+  "name": "qiniso",
+  "display_name": "Qiniso — verified fact-checking for AI agents",
+  "version": "0.5.0",
+  "description": "56 deterministic fact-checkers for AI agents — IBAN, VAT, VIN, barcodes, IDs, crypto, dates, holidays.",
+  "long_description": "The deterministic fact-verification layer for AI agents: 56 checks across 8 domains — identifiers (IBAN, payment cards, ISBN, VIN, GTIN/UPC/EAN barcodes), web/network (TLD, domain, IP, UUID, URL, email), finance (ISIN, CUSIP, SEDOL, LEI, routing), crypto (ETH/BTC addresses), national & tax IDs for 24 countries (incl. EU/UK VAT), academic IDs, locale (phone, date parsing, currency, holidays), and address parsing. Validates the structured facts an agent emits against checksums and curated data, returning a clear result or an honest error — never a guess. Runs locally, no key, nothing to authorize.",
+  "author": {
+    "name": "Qiniso",
+    "url": "https://github.com/qinisolabs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qinisolabs/qiniso"
+  },
+  "homepage": "https://qinisolabs.github.io/qiniso",
+  "documentation": "https://qinisolabs.github.io/qiniso",
+  "support": "https://github.com/qinisolabs/qiniso/issues",
+  "license": "Apache-2.0",
+  "keywords": ["validation", "checksum", "iban", "vat", "vin", "identifiers", "verification"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/server.js"],
+      "env": {}
+    }
+  },
+  "tools_generated": false,
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}
