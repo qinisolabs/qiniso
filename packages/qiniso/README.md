@@ -67,6 +67,10 @@ Or run it locally over stdio: `npx -p @qinisolabs/qiniso qiniso-mcp`.
 - **Not a credential sink** — it never asks for secrets or keys.
 - **Not a registration check** — it validates a VAT number's checksum, not whether it is live-registered (VIES); it confirms a TLD is real, not that a domain is registered.
 
+## Privacy
+
+This tool runs locally on your machine and is built not to collect, store, or transmit your data — no analytics, no telemetry, no account. All reference data is bundled — no network calls, and nothing leaves your device. Full policy: <https://qinisolabs.github.io/privacy.html>.
+
 ## License
 
 Apache-2.0

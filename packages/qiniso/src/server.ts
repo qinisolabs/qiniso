@@ -3,7 +3,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { TOOLS, SERVER_INFO } from "./core.js";
+import { TOOLS, SERVER_INFO, toolAnnotations } from "./core.js";
 
 const server = new McpServer({ name: SERVER_INFO.name, version: SERVER_INFO.version });
 
@@ -15,7 +15,7 @@ for (const t of TOOLS) {
     const base = z.string().describe(a.description);
     shape[a.name] = a.optional ? base.optional() : base;
   }
-  server.tool(t.name, t.description, shape, async (args: Record<string, string | undefined>) => {
+  server.tool(t.name, t.description, shape, toolAnnotations(t.name), async (args: Record<string, string | undefined>) => {
     const result = t.args ? t.runArgs!(args) : t.run!(args[t.argName!] ?? "");
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   });

@@ -17,6 +17,7 @@
   "documentation": "https://qinisolabs.github.io/qiniso",
   "support": "https://github.com/qinisolabs/qiniso/issues",
   "license": "Apache-2.0",
+  "privacy_policies": ["https://qinisolabs.github.io/privacy.html"],
   "keywords": ["validation", "checksum", "iban", "vat", "vin", "identifiers", "verification"],
   "server": {
     "type": "node",
