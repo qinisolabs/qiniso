@@ -19,7 +19,7 @@ since `validate_gtin` lives inside the umbrella rather than a standalone repo.
 | Glama | auto-ingest / claim | ⏳ pending — verify | — | claim via qinisolabs GitHub, **no billing** |
 | mcp.so | submit / auto-ingest | ⏳ pending — verify | — | |
 | PulseMCP | auto-ingest | ⏳ pending — verify | — | |
-| awesome-mcp-servers | **manual PR** | ⏳ to do | — | the one truly manual step |
+| awesome-mcp-servers | **manual PR** | ✅ merged | 2026-06-19 | merged into punkpeye/awesome-mcp-servers |
 | Launch post | manual | ⏳ when ready | — | |
 
 Legend: ✅ done & verified · ⏳ pending · ➖ skip.
