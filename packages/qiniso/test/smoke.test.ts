@@ -25,7 +25,7 @@ check("initialize returns serverInfo + tools capability", () => {
   assert.ok(r.result.capabilities.tools);
 });
 
-check("tools/list returns all 56 tools with schemas", () => {
+check("tools/list returns all 57 tools with schemas", () => {
   const r = rpc("tools/list");
   const names = r.result.tools.map((t: any) => t.name).sort();
   assert.deepEqual(names, [
@@ -42,12 +42,22 @@ check("tools/list returns all 56 tools with schemas", () => {
     "validate_nif_pt", "validate_orcid", "validate_personnummer", "validate_pesel",
     "validate_phone", "validate_ro_cnp", "validate_routing", "validate_sa_id",
     "validate_sedol", "validate_sscc", "validate_tckn", "validate_tld",
-    "validate_url", "validate_uuid", "validate_vat", "validate_vin",
+    "validate_tracking", "validate_url", "validate_uuid", "validate_vat",
+    "validate_vin",
   ]);
   for (const t of r.result.tools) {
     assert.equal(t.inputSchema.type, "object");
     assert.ok(Array.isArray(t.inputSchema.required));
+    assert.equal(t.outputSchema.type, "object", `${t.name} should advertise an outputSchema`);
   }
+});
+
+check("tools/call returns structuredContent matching the text payload", () => {
+  const r = rpc("tools/call", { name: "validate_iban", arguments: { iban: "GB82 WEST 1234 5698 7654 32" } });
+  assert.ok(r.result.structuredContent, "structuredContent should be present");
+  assert.equal(r.result.structuredContent.valid, true);
+  // structuredContent must equal the object the text payload serialises.
+  assert.deepEqual(r.result.structuredContent, JSON.parse(r.result.content[0].text));
 });
 
 check("tools/call validate_iban — valid", () => {
@@ -79,6 +89,17 @@ check("tools/call validate_card — Visa test number", () => {
 check("tools/call validate_vin — valid check digit", () => {
   const r = rpc("tools/call", { name: "validate_vin", arguments: { vin: "1HGBH41JXMN109186" } });
   assert.equal(JSON.parse(r.result.content[0].text).valid, true);
+});
+
+check("tools/call validate_tracking — UPS valid vs typo'd check digit", () => {
+  const ok = rpc("tools/call", { name: "validate_tracking", arguments: { tracking: "1Z5R89390357567127" } });
+  const typo = rpc("tools/call", { name: "validate_tracking", arguments: { tracking: "1Z5R89390357567128" } });
+  const okp = JSON.parse(ok.result.content[0].text);
+  assert.equal(okp.valid, true);
+  assert.equal(okp.carrierCode, "ups");
+  const typop = JSON.parse(typo.result.content[0].text);
+  assert.equal(typop.valid, false);
+  assert.equal(typop.carrierCode, "ups");
 });
 
 check("tools/call validate_tld — real .zip vs fake .corp", () => {
@@ -182,6 +203,17 @@ check("multi-arg tax_rate — UK VAT is date-sensitive", () => {
   const old = rpc("tools/call", { name: "tax_rate", arguments: { country: "GB", date: "2010-01-01" } });
   assert.equal(JSON.parse(now.result.content[0].text).rate, 20); // 20% from 2011-01-04
   assert.equal(JSON.parse(old.result.content[0].text).rate, 17.5); // 17.5% on 2010-01-01
+  // time-sensitive results carry a non-advice disclaimer + provenance
+  const p = now.result.structuredContent;
+  assert.ok(p.disclaimer && /not legal or tax advice/i.test(p.disclaimer));
+  assert.ok(p.source && p.last_verified);
+});
+
+check("is_holiday carries a reference-only disclaimer", () => {
+  const r = rpc("tools/call", { name: "is_holiday", arguments: { date: "2024-12-25", country: "GB" } });
+  const p = r.result.structuredContent;
+  assert.equal(p.is_holiday, true);
+  assert.ok(p.disclaimer && /not legal advice/i.test(p.disclaimer));
 });
 
 check("multi-arg parse_date — UK day-first vs US month-first", () => {

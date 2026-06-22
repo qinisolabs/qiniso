@@ -31,8 +31,14 @@ export interface TaxResult {
   state_note?: string;
   source?: string;
   last_verified?: string;
+  disclaimer?: string;
   reason?: string;
 }
+
+// Reference framing for the rate lookups. The result already carries `source`
+// and `last_verified` provenance; this makes the non-advice scope explicit.
+const TAX_DISCLAIMER =
+  "Reference data (see source/last_verified) — rates change and local taxes may apply; not legal or tax advice. Verify with the relevant tax authority before relying on this for filing.";
 
 function ukVat(date: string): TaxResult {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { ok: false, reason: `bad date: ${date}` };
@@ -55,6 +61,7 @@ function ukVat(date: string): TaxResult {
     note: applicable.note ?? null,
     source: UK.source,
     last_verified: UK.last_verified,
+    disclaimer: TAX_DISCLAIMER,
   };
 }
 
@@ -68,6 +75,7 @@ function usTax(date: string, state?: string): TaxResult {
     note: US.note,
     source: US.source,
     last_verified: US.last_verified,
+    disclaimer: TAX_DISCLAIMER,
   };
   if (!state) {
     return { ...base, rate: 0.0, scope: "national (US has no VAT; supply a state for sales tax)" };

@@ -26,6 +26,10 @@ function isoOf(h: { date: string }): string {
   return h.date.slice(0, 10);
 }
 
+// Public/bank holidays only; one-off and some regional holidays are not covered.
+const HOLIDAY_DISCLAIMER =
+  "Public and bank holidays only; excludes most one-off and some regional holidays. Reference data, not legal advice — verify locally before relying on this for payroll or compliance.";
+
 export interface HolidayResult {
   ok: boolean;
   date?: string;
@@ -33,6 +37,7 @@ export interface HolidayResult {
   subdiv?: string | null;
   is_holiday?: boolean;
   name?: string | null;
+  disclaimer?: string;
   reason?: string;
 }
 
@@ -52,6 +57,7 @@ export function isHoliday(date: string, country = "GB", subdiv?: string): Holida
     subdiv: used ?? null,
     is_holiday: matches.length > 0,
     name: hit ? hit.name : null,
+    disclaimer: HOLIDAY_DISCLAIMER,
   };
 }
 
@@ -61,6 +67,7 @@ export interface NextHolidayResult {
   subdiv?: string | null;
   date?: string;
   name?: string;
+  disclaimer?: string;
   reason?: string;
 }
 
@@ -78,7 +85,7 @@ export function nextHoliday(country = "GB", after?: string, subdiv?: string): Ne
       .filter((h) => h.iso >= start)
       .sort((a, b) => a.iso.localeCompare(b.iso));
     if (all.length) {
-      return { ok: true, country, subdiv: used ?? null, date: all[0].iso, name: all[0].name };
+      return { ok: true, country, subdiv: used ?? null, date: all[0].iso, name: all[0].name, disclaimer: HOLIDAY_DISCLAIMER };
     }
   }
   return { ok: false, reason: "none found in window" };

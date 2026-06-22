@@ -11,6 +11,7 @@ import {
   validateImei,
   validateGln,
   validateSscc,
+  validateTracking,
 } from "@qiniso/identifiers";
 import {
   validateTld,
@@ -151,6 +152,14 @@ export const TOOLS: ToolSpec[] = [
     argName: "sscc",
     argDescription: "The 18-digit SSCC; spaces and dashes are ignored.",
     run: (v) => validateSscc(v),
+  },
+  {
+    name: "validate_tracking",
+    description:
+      "USE THIS to identify the carrier for a parcel tracking number and check it is well-formed before trusting it or calling a tracking API — never guess the carrier or assume a tracking number is valid. Detects UPS, FedEx, USPS, DHL, OnTrac, Amazon Logistics and S10 international postal numbers, and verifies the carrier's check digit (mod10/mod7/S10/weighted-modulo). If the number fits a carrier's pattern but the check digit fails it still names the likely carrier and flags a probable typo. Validates structure only — it does NOT tell you where the parcel is or whether it exists.",
+    argName: "tracking",
+    argDescription: "The parcel tracking number; surrounding/internal spaces are ignored.",
+    run: (v) => validateTracking(v),
   },
   {
     name: "validate_tld",
@@ -555,7 +564,7 @@ export const TOOLS: ToolSpec[] = [
   },
 ];
 
-export const SERVER_INFO = { name: "qiniso", version: "0.5.0" } as const;
+export const SERVER_INFO = { name: "qiniso", version: "0.6.0" } as const;
 const DEFAULT_PROTOCOL = "2025-06-18";
 
 function argList(t: ToolSpec): ToolArg[] {
@@ -581,11 +590,27 @@ export function humanizeTitle(name: string): string {
 export function toolAnnotations(name: string) {
   return { title: humanizeTitle(name), readOnlyHint: true };
 }
+
+// Every tool returns a deterministic JSON object (also mirrored in
+// `structuredContent`). We advertise a permissive-but-honest output schema so
+// clients can rely on structured output without us hand-transcribing 57 exact
+// per-field schemas (a transcription-risk we deliberately avoid).
+const OUTPUT_SCHEMA = {
+  type: "object",
+  description:
+    "Deterministic verification result. Always a JSON object; validator tools include a boolean `valid` plus tool-specific fields (e.g. countryCode, brand, reason). Identical to the object returned in `structuredContent`.",
+  properties: {
+    valid: { type: "boolean", description: "Whether the value passed verification (present on validator tools)." },
+  },
+  additionalProperties: true,
+} as const;
+
 export function listTools() {
   return TOOLS.map((t) => ({
     name: t.name,
     description: t.description,
     inputSchema: inputSchema(t),
+    outputSchema: OUTPUT_SCHEMA,
     annotations: toolAnnotations(t.name),
   }));
 }
@@ -610,6 +635,7 @@ export function callTool(name: string, args: Record<string, unknown> | undefined
   }
   return {
     content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+    structuredContent: result as Record<string, unknown>,
   };
 }
 

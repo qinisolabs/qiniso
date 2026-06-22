@@ -1,6 +1,6 @@
 {
   "name": "@qinisolabs/qiniso",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "mcpName": "io.github.qinisolabs/qiniso",
   "description": "The deterministic fact-verification layer for AI agents — verify identifiers, locale and more against authoritative ground truth.",
   "homepage": "https://qinisolabs.github.io/qiniso/",
@@ -48,6 +48,9 @@
     "gtin",
     "upc",
     "ean",
+    "tracking-number",
+    "parcel",
+    "carrier",
     "iban",
     "vat",
     "national-id",

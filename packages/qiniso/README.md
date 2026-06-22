@@ -46,7 +46,18 @@ No install needed — add the hosted endpoint as a custom connector:
 https://qiniso.qinisolabs.workers.dev/mcp
 ```
 
-Or run it locally over stdio: `npx -p @qinisolabs/qiniso qiniso-mcp`.
+Or run it locally over stdio. Add this to your client's MCP config (e.g. `claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "qiniso": {
+      "command": "npx",
+      "args": ["-y", "-p", "@qinisolabs/qiniso", "qiniso-mcp"]
+    }
+  }
+}
+```
 
 ## What it verifies — 56 tools across 8 domains
 

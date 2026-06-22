@@ -17,7 +17,10 @@ for (const t of TOOLS) {
   }
   server.tool(t.name, t.description, shape, toolAnnotations(t.name), async (args: Record<string, string | undefined>) => {
     const result = t.args ? t.runArgs!(args) : t.run!(args[t.argName!] ?? "");
-    return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+    return {
+      content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
+      structuredContent: result as Record<string, unknown>,
+    };
   });
 }
 
